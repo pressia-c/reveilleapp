@@ -1,0 +1,1701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réveillé Archive</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@400;500;700&display=swap');
+        
+        :root {
+            --navy: #13273F;
+            --charcoal: #272836;
+            --cream: #E7E5DB;
+            --warm-white: #F5F4EF;
+            --accent-sage: #8B9B8E;
+            --accent-gold: #C9A961;
+            --soft-shadow: rgba(19, 39, 63, 0.08);
+            --medium-shadow: rgba(19, 39, 63, 0.15);
+            
+            --font-display: 'Cormorant Garamond', serif;
+            --font-body: 'DM Sans', sans-serif;
+            
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            background: var(--cream);
+            color: var(--navy);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Auth Screen */
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .auth-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(139, 155, 142, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-50px, 50px) scale(1.1); }
+        }
+        
+        .auth-box {
+            background: white;
+            padding: 3rem 2.5rem;
+            border-radius: 24px;
+            box-shadow: var(--medium-shadow);
+            max-width: 420px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .logo-image {
+            width: 180px;
+            height: auto;
+            display: block;
+            margin: 0 auto 2rem;
+            opacity: 0;
+            animation: fadeInLogo 1s ease-out forwards;
+        }
+        
+        @keyframes fadeInLogo {
+            to {
+                opacity: 1;
+            }
+        }
+        
+        .logo {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            color: var(--navy);
+            letter-spacing: 0.5px;
+        }
+        
+        .tagline {
+            text-align: center;
+            color: var(--charcoal);
+            font-size: 0.9rem;
+            margin-bottom: 2.5rem;
+            font-weight: 400;
+            opacity: 0.7;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--navy);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--cream);
+            border-radius: 12px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: var(--transition);
+            background: var(--warm-white);
+            color: var(--navy);
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-sage);
+            background: white;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--charcoal) 100%);
+            color: var(--cream);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(19, 39, 63, 0.3);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--navy);
+            border: 2px solid var(--cream);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--warm-white);
+            border-color: var(--accent-sage);
+        }
+        
+        /* Shimmer effect for loading */
+        .btn-loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            animation: shimmer 1.5s infinite;
+        }
+        
+        @keyframes shimmer {
+            100% {
+                left: 100%;
+            }
+        }
+        
+        .auth-toggle {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--charcoal);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .auth-toggle a {
+            color: var(--navy);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            opacity: 1;
+        }
+        
+        .auth-toggle a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Main App */
+        .app-container {
+            display: none;
+            min-height: 100vh;
+        }
+        
+        .app-container.active {
+            display: block;
+        }
+        
+        /* Header */
+        .app-header {
+            background: white;
+            border-bottom: 1px solid var(--cream);
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--soft-shadow);
+        }
+        
+        .app-logo {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            font-weight: 400;
+            color: var(--navy);
+        }
+        
+        .account-switcher {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .account-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .account-badge.personal {
+            background: var(--accent-sage);
+            color: white;
+        }
+        
+        .account-badge.organization {
+            background: var(--accent-gold);
+            color: white;
+        }
+        
+        .account-badge.inactive {
+            background: var(--cream);
+            color: var(--charcoal);
+            opacity: 0.6;
+        }
+        
+        .account-badge:hover {
+            transform: scale(1.05);
+            opacity: 1;
+        }
+        
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid var(--cream);
+            display: flex;
+            justify-content: space-around;
+            padding: 0.75rem 0;
+            box-shadow: 0 -2px 20px rgba(19, 39, 63, 0.06);
+            z-index: 100;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--charcoal);
+            opacity: 0.5;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 12px;
+        }
+        
+        .nav-item:hover {
+            background: var(--warm-white);
+            color: var(--navy);
+            opacity: 0.8;
+        }
+        
+        .nav-item.active {
+            color: var(--navy);
+            background: var(--warm-white);
+            opacity: 1;
+        }
+        
+        .nav-icon {
+            font-size: 1.5rem;
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 2rem 1.5rem 6rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .page-title {
+            font-family: var(--font-display);
+            font-size: 2.25rem;
+            font-weight: 300;
+            color: var(--navy);
+            margin-bottom: 0.5rem;
+        }
+        
+        .page-subtitle {
+            color: var(--charcoal);
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            opacity: 0.7;
+        }
+        
+        /* Entry Creation */
+        .entry-form {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--soft-shadow);
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 300px;
+            padding: 1.25rem;
+            border: 2px solid var(--cream);
+            border-radius: 12px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: vertical;
+            transition: var(--transition);
+            background: var(--warm-white);
+            color: var(--navy);
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-sage);
+            background: white;
+        }
+        
+        .highlight-indicators {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--warm-white);
+            border-radius: 12px;
+            font-size: 0.85rem;
+        }
+        
+        .indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--charcoal);
+            opacity: 0.7;
+        }
+        
+        .indicator-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .indicator-dot.tension { background: #C97064; }
+        .indicator-dot.joy { background: var(--accent-gold); }
+        .indicator-dot.calm { background: var(--accent-sage); }
+        
+        /* Memory Box - Archive Grid */
+        .search-bar {
+            margin-bottom: 2rem;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border: 2px solid var(--cream);
+            border-radius: 16px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            background: white;
+            transition: var(--transition);
+            color: var(--navy);
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-sage);
+            box-shadow: 0 0 0 4px rgba(139, 155, 142, 0.1);
+        }
+        
+        .entries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .entry-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--soft-shadow);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+        
+        .entry-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--medium-shadow);
+            border-color: var(--accent-sage);
+        }
+        
+        .entry-date {
+            color: var(--charcoal);
+            font-size: 0.85rem;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+            opacity: 0.6;
+        }
+        
+        .entry-preview {
+            color: var(--navy);
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .entry-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .tag {
+            padding: 0.25rem 0.75rem;
+            background: var(--warm-white);
+            border-radius: 12px;
+            font-size: 0.75rem;
+            color: var(--charcoal);
+        }
+        
+        /* Personal Narrative - Insights */
+        .insights-container {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .insight-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--soft-shadow);
+            border-left: 4px solid var(--accent-sage);
+        }
+        
+        .insight-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 1rem;
+        }
+        
+        .insight-content {
+            color: var(--navy);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+        
+        .pattern-web {
+            background: var(--warm-white);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .pattern-title {
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 1rem;
+        }
+        
+        .pattern-connections {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        
+        .connection-node {
+            padding: 0.75rem 1.25rem;
+            background: white;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--charcoal);
+            box-shadow: var(--soft-shadow);
+        }
+        
+        /* Collective Archive */
+        .newsletter-card {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--charcoal) 100%);
+            color: var(--cream);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--medium-shadow);
+        }
+        
+        .newsletter-title {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .newsletter-date {
+            opacity: 0.8;
+            margin-bottom: 1.5rem;
+        }
+        
+        .newsletter-content {
+            line-height: 1.8;
+        }
+        
+        .world-report {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            color: var(--navy);
+        }
+        
+        .report-theme {
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Quick Notes */
+        .quick-note-input {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--soft-shadow);
+        }
+        
+        .quick-note-input input {
+            border: none;
+            background: transparent;
+            font-size: 1.1rem;
+            padding: 0.5rem 0;
+        }
+        
+        .notes-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .note-item {
+            background: white;
+            border-radius: 12px;
+            padding: 1.25rem;
+            box-shadow: var(--soft-shadow);
+            border-left: 3px solid var(--accent-gold);
+        }
+        
+        .note-time {
+            font-size: 0.8rem;
+            color: var(--charcoal);
+            margin-bottom: 0.5rem;
+            opacity: 0.6;
+        }
+        
+        .note-text {
+            color: var(--navy);
+            line-height: 1.5;
+        }
+        
+        /* Settings Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            padding: 2.5rem;
+            max-width: 500px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            color: var(--navy);
+        }
+        
+        .settings-group {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--cream);
+        }
+        
+        .settings-group:last-child {
+            border-bottom: none;
+        }
+        
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+        }
+        
+        .toggle-switch {
+            width: 50px;
+            height: 26px;
+            background: var(--cream);
+            border-radius: 13px;
+            position: relative;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .toggle-switch.active {
+            background: var(--accent-sage);
+        }
+        
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            transition: var(--transition);
+        }
+        
+        .toggle-switch.active::after {
+            left: 27px;
+        }
+        
+        .settings-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--warm-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .settings-icon:hover {
+            background: var(--cream);
+        }
+        
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--cream);
+            border-top-color: var(--accent-sage);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Onboarding Walkthrough */
+        .walkthrough-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(19, 39, 63, 0.95);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .walkthrough-overlay.active {
+            display: flex;
+        }
+        
+        .walkthrough-card {
+            background: white;
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .walkthrough-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .walkthrough-title {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--navy);
+            margin-bottom: 1rem;
+        }
+        
+        .walkthrough-description {
+            color: var(--charcoal);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        
+        .walkthrough-steps {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .step-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--cream);
+            transition: var(--transition);
+        }
+        
+        .step-dot.active {
+            background: var(--accent-sage);
+            width: 24px;
+        }
+        
+        .walkthrough-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1.5rem 1rem 6rem;
+            }
+            
+            .page-title {
+                font-size: 1.75rem;
+            }
+            
+            .entries-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .walkthrough-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .walkthrough-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Onboarding Walkthrough -->
+    <div id="walkthroughOverlay" class="walkthrough-overlay">
+        <div class="walkthrough-card">
+            <div class="walkthrough-icon" id="walkthroughIcon">📝</div>
+            <h2 class="walkthrough-title" id="walkthroughTitle">Welcome to Réveillé</h2>
+            <p class="walkthrough-description" id="walkthroughDescription">
+                Your personal archive for inner exploration and growth.
+            </p>
+            <div class="walkthrough-steps">
+                <div class="step-dot active"></div>
+                <div class="step-dot"></div>
+                <div class="step-dot"></div>
+                <div class="step-dot"></div>
+            </div>
+            <div class="walkthrough-buttons">
+                <button class="btn btn-secondary" style="flex: 1;" onclick="skipWalkthrough()">Skip</button>
+                <button class="btn btn-primary" style="flex: 2;" onclick="nextWalkthroughStep()">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Authentication Screen -->
+    <div id="authContainer" class="auth-container">
+        <div class="auth-box">
+            <!-- Logo Image - Replace with your actual logo -->
+            <svg class="logo-image" viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg">
+                <text x="200" y="80" font-family="'Cormorant Garamond', serif" font-size="60" 
+                      font-weight="300" text-anchor="middle" fill="#13273F">Réveillé</text>
+            </svg>
+            
+            <p class="tagline">Archive your inner world</p>
+            
+            <div id="loginForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••">
+                </div>
+                <button class="btn btn-primary" onclick="login()">Sign In</button>
+                <div class="auth-toggle">
+                    Don't have an account? <a onclick="showSignup()">Sign up</a>
+                </div>
+            </div>
+            
+            <div id="signupForm" class="hidden">
+                <div class="form-group">
+                    <label>Account Type</label>
+                    <select id="signupType">
+                        <option value="personal">Personal Account</option>
+                        <option value="organization">Organization (Therapist)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" id="signupName" placeholder="Your name">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="signupEmail" placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="signupPassword" placeholder="••••••••">
+                </div>
+                <button class="btn btn-primary" onclick="signup()">Create Account</button>
+                <div class="auth-toggle">
+                    Already have an account? <a onclick="showLogin()">Sign in</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="appContainer" class="app-container">
+        <header class="app-header">
+            <div class="app-logo">Réveillé</div>
+            <div class="account-switcher">
+                <div id="personalBadge" class="account-badge personal" onclick="switchAccount('personal')">
+                    Personal
+                </div>
+                <div id="organizationBadge" class="account-badge organization inactive hidden" onclick="switchAccount('organization')">
+                    Therapist
+                </div>
+                <div class="settings-icon" onclick="openSettings()">⚙️</div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Create Entry Tab -->
+            <div id="createTab" class="tab-content active">
+                <h2 class="page-title">Create Entry</h2>
+                <p class="page-subtitle">Pour your thoughts onto the page</p>
+                
+                <div class="entry-form">
+                    <div class="form-group">
+                        <label>Title (optional)</label>
+                        <input type="text" id="entryTitle" placeholder="Give your entry a name...">
+                    </div>
+                    <div class="form-group">
+                        <label>Your Reflection</label>
+                        <textarea id="entryContent" placeholder="What's on your mind today?"></textarea>
+                    </div>
+                    <div class="highlight-indicators">
+                        <div class="indicator">
+                            <div class="indicator-dot tension"></div>
+                            <span>Tension detected</span>
+                        </div>
+                        <div class="indicator">
+                            <div class="indicator-dot joy"></div>
+                            <span>Joy detected</span>
+                        </div>
+                        <div class="indicator">
+                            <div class="indicator-dot calm"></div>
+                            <span>Calm detected</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="saveEntry()">Save Entry</button>
+                </div>
+            </div>
+
+            <!-- Quick Notes Tab -->
+            <div id="notesTab" class="tab-content">
+                <h2 class="page-title">Quick Notes</h2>
+                <p class="page-subtitle">Capture fleeting thoughts</p>
+                
+                <div class="quick-note-input">
+                    <input type="text" id="quickNoteText" placeholder="What's crossing your mind?" onkeypress="handleNoteEnter(event)">
+                    <button class="btn btn-primary" onclick="saveQuickNote()">Add Note</button>
+                </div>
+                
+                <div id="notesList" class="notes-list">
+                    <!-- Notes will be added here -->
+                </div>
+            </div>
+
+            <!-- Memory Box Tab -->
+            <div id="memoryTab" class="tab-content">
+                <h2 class="page-title">Memory Box</h2>
+                <p class="page-subtitle">Your archive of reflections</p>
+                
+                <div class="search-bar">
+                    <input type="text" class="search-input" id="searchBox" 
+                           placeholder="Search by name, theme, date, or words..." 
+                           oninput="filterEntries()">
+                </div>
+                
+                <div id="entriesGrid" class="entries-grid">
+                    <!-- Entries will be displayed here -->
+                </div>
+            </div>
+
+            <!-- Personal Narrative Tab -->
+            <div id="narrativeTab" class="tab-content">
+                <h2 class="page-title">Personal Narrative</h2>
+                <p class="page-subtitle">AI-powered insights from your journey</p>
+                
+                <div id="insightsContainer" class="insights-container">
+                    <div class="insight-card">
+                        <h3 class="insight-title">Pattern Recognition</h3>
+                        <p class="insight-content">
+                            We're analyzing your entries to identify recurring themes and emotional patterns. 
+                            Add more entries to unlock deeper insights.
+                        </p>
+                        <button class="btn btn-primary" onclick="generateInsights()">Generate Insights</button>
+                    </div>
+                    
+                    <div class="pattern-web">
+                        <div class="pattern-title">Your Web of Interests</div>
+                        <div id="patternConnections" class="pattern-connections">
+                            <div class="connection-node">Add entries to see connections</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Collective Archive Tab -->
+            <div id="collectiveTab" class="tab-content">
+                <h2 class="page-title">Collective Archive</h2>
+                <p class="page-subtitle">Anonymous wisdom from the community</p>
+                
+                <div class="newsletter-card">
+                    <h3 class="newsletter-title">World Report</h3>
+                    <p class="newsletter-date">This Week's Inner World</p>
+                    <div class="newsletter-content">
+                        <p>Welcome to the collective wisdom of humans sharing their inner experiences. 
+                        This space aggregates anonymous themes and insights from our community.</p>
+                    </div>
+                </div>
+                
+                <div id="worldReports">
+                    <div class="world-report">
+                        <div class="report-theme">Common Theme: Transition & Growth</div>
+                        <p>Many in our community are experiencing periods of change, navigating uncertainty 
+                        while discovering new aspects of themselves.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="nav-item active" onclick="switchTab('create')">
+                <div class="nav-icon">✏️</div>
+                <div>Create</div>
+            </div>
+            <div class="nav-item" onclick="switchTab('notes')">
+                <div class="nav-icon">💭</div>
+                <div>Notes</div>
+            </div>
+            <div class="nav-item" onclick="switchTab('memory')">
+                <div class="nav-icon">📦</div>
+                <div>Memory</div>
+            </div>
+            <div class="nav-item" onclick="switchTab('narrative')">
+                <div class="nav-icon">🌟</div>
+                <div>Narrative</div>
+            </div>
+            <div class="nav-item" onclick="switchTab('collective')">
+                <div class="nav-icon">🌍</div>
+                <div>Collective</div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-title">Settings</h2>
+            
+            <div class="settings-group">
+                <h3>Account</h3>
+                <div class="setting-item">
+                    <span>Face ID</span>
+                    <div class="toggle-switch" onclick="toggleSetting(this)"></div>
+                </div>
+                <div class="setting-item">
+                    <span>Save data when app deleted</span>
+                    <div class="toggle-switch active" onclick="toggleSetting(this)"></div>
+                </div>
+            </div>
+            
+            <div class="settings-group">
+                <h3>Appearance</h3>
+                <div class="setting-item">
+                    <label>Theme</label>
+                    <select>
+                        <option>Light</option>
+                        <option>Dark</option>
+                        <option>Auto</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="settings-group">
+                <h3>Subscription</h3>
+                <p style="color: var(--charcoal); font-size: 0.9rem; opacity: 0.7;">
+                    Personal Plan: $19/month<br>
+                    Annual: $199/year (save $29)
+                </p>
+            </div>
+            
+            <div class="settings-group">
+                <button class="btn btn-secondary" onclick="logout()">Sign Out</button>
+                <button class="btn btn-secondary" style="margin-top: 0.5rem; color: #C97064; border-color: var(--cream);" 
+                        onclick="deleteAccount()">Delete Account & All Data</button>
+            </div>
+            
+            <button class="btn btn-primary" onclick="closeSettings()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Storage using persistent API
+        const storage = window.storage || {
+            async get(key) {
+                return JSON.parse(localStorage.getItem(key));
+            },
+            async set(key, value) {
+                localStorage.setItem(key, JSON.stringify(value));
+                return { key, value };
+            },
+            async list(prefix) {
+                const keys = Object.keys(localStorage).filter(k => k.startsWith(prefix || ''));
+                return { keys };
+            }
+        };
+
+        let currentUser = null;
+        let currentAccount = 'personal';
+        let entries = [];
+        let quickNotes = [];
+        let walkthroughStep = 0;
+
+        // Walkthrough steps
+        const walkthroughSteps = [
+            {
+                icon: '📝',
+                title: 'Welcome to Réveillé',
+                description: 'Your personal archive for inner exploration and growth. Let\'s take a quick tour of the features.'
+            },
+            {
+                icon: '✏️',
+                title: 'Create Entries',
+                description: 'Write journal entries and quick notes. Our AI detects emotional patterns and body signals as you write.'
+            },
+            {
+                icon: '📦',
+                title: 'Memory Box',
+                description: 'All your entries are stored here. Search by themes, dates, or specific words to revisit your thoughts.'
+            },
+            {
+                icon: '🌟',
+                title: 'Personal Narrative',
+                description: 'AI analyzes your writing to reveal patterns, suggest prompts, and map your web of interests over time.'
+            }
+        ];
+
+        function showWalkthrough() {
+            const hasSeenWalkthrough = localStorage.getItem('hasSeenWalkthrough');
+            if (!hasSeenWalkthrough) {
+                document.getElementById('walkthroughOverlay').classList.add('active');
+            }
+        }
+
+        function nextWalkthroughStep() {
+            walkthroughStep++;
+            
+            if (walkthroughStep >= walkthroughSteps.length) {
+                finishWalkthrough();
+                return;
+            }
+
+            const step = walkthroughSteps[walkthroughStep];
+            document.getElementById('walkthroughIcon').textContent = step.icon;
+            document.getElementById('walkthroughTitle').textContent = step.title;
+            document.getElementById('walkthroughDescription').textContent = step.description;
+
+            // Update step dots
+            document.querySelectorAll('.step-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === walkthroughStep);
+            });
+
+            // Change button text on last step
+            if (walkthroughStep === walkthroughSteps.length - 1) {
+                event.target.textContent = 'Get Started';
+            }
+        }
+
+        function skipWalkthrough() {
+            finishWalkthrough();
+        }
+
+        function finishWalkthrough() {
+            document.getElementById('walkthroughOverlay').classList.remove('active');
+            localStorage.setItem('hasSeenWalkthrough', 'true');
+        }
+
+        // Initialize
+        async function init() {
+            const user = await storage.get('currentUser');
+            if (user) {
+                currentUser = user;
+                await loadUserData();
+                showApp();
+                showWalkthrough();
+            }
+        }
+
+        // Authentication
+        async function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            const button = event.target;
+            button.classList.add('btn-loading');
+            button.textContent = 'Signing in...';
+
+            // Simulate network delay
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            const users = await storage.get('users') || {};
+            const user = users[email];
+            
+            if (user && user.password === password) {
+                currentUser = user;
+                await storage.set('currentUser', user);
+                await loadUserData();
+                showApp();
+                showWalkthrough();
+            } else {
+                alert('Invalid credentials');
+                button.classList.remove('btn-loading');
+                button.textContent = 'Sign In';
+            }
+        }
+
+        async function signup() {
+            const type = document.getElementById('signupType').value;
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            
+            if (!name || !email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            const button = event.target;
+            button.classList.add('btn-loading');
+            button.textContent = 'Creating account...';
+
+            // Simulate network delay
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            const users = await storage.get('users') || {};
+            
+            if (users[email]) {
+                alert('Account already exists');
+                button.classList.remove('btn-loading');
+                button.textContent = 'Create Account';
+                return;
+            }
+
+            const newUser = {
+                name,
+                email,
+                password,
+                type,
+                accounts: {
+                    personal: { entries: [], notes: [], insights: [] }
+                }
+            };
+
+            if (type === 'organization') {
+                newUser.accounts.organization = { clients: [], entries: [], notes: [] };
+            }
+
+            users[email] = newUser;
+            await storage.set('users', users);
+            
+            currentUser = newUser;
+            await storage.set('currentUser', newUser);
+            await loadUserData();
+            showApp();
+            showWalkthrough();
+        }
+
+        function showLogin() {
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('signupForm').classList.add('hidden');
+        }
+
+        function showSignup() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('signupForm').classList.remove('hidden');
+        }
+
+        function showApp() {
+            document.getElementById('authContainer').style.display = 'none';
+            document.getElementById('appContainer').classList.add('active');
+            
+            if (currentUser.accounts.organization) {
+                document.getElementById('organizationBadge').classList.remove('hidden');
+            }
+            
+            renderEntries();
+            renderNotes();
+        }
+
+        async function logout() {
+            await storage.set('currentUser', null);
+            location.reload();
+        }
+
+        async function deleteAccount() {
+            if (confirm('Are you sure? This will permanently delete all your data.')) {
+                const users = await storage.get('users') || {};
+                delete users[currentUser.email];
+                await storage.set('users', users);
+                await storage.set('currentUser', null);
+                location.reload();
+            }
+        }
+
+        // Account Switching
+        function switchAccount(type) {
+            currentAccount = type;
+            
+            document.querySelectorAll('.account-badge').forEach(badge => {
+                badge.classList.add('inactive');
+            });
+            
+            document.getElementById(type + 'Badge').classList.remove('inactive');
+            
+            loadUserData();
+            renderEntries();
+            renderNotes();
+        }
+
+        async function loadUserData() {
+            const accountData = currentUser.accounts[currentAccount];
+            entries = accountData.entries || [];
+            quickNotes = accountData.notes || [];
+        }
+
+        async function saveUserData() {
+            currentUser.accounts[currentAccount].entries = entries;
+            currentUser.accounts[currentAccount].notes = quickNotes;
+            
+            const users = await storage.get('users') || {};
+            users[currentUser.email] = currentUser;
+            await storage.set('users', users);
+        }
+
+        // Navigation
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        // Entry Management
+        async function saveEntry() {
+            const title = document.getElementById('entryTitle').value;
+            const content = document.getElementById('entryContent').value;
+            
+            if (!content) {
+                alert('Please write something first');
+                return;
+            }
+
+            const button = event.target;
+            button.classList.add('btn-loading');
+            button.textContent = 'Saving...';
+
+            // Simulate save delay
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            const entry = {
+                id: Date.now(),
+                title: title || 'Untitled Entry',
+                content,
+                date: new Date().toISOString(),
+                tags: extractTags(content),
+                type: 'entry'
+            };
+
+            entries.unshift(entry);
+            await saveUserData();
+            
+            document.getElementById('entryTitle').value = '';
+            document.getElementById('entryContent').value = '';
+            
+            button.classList.remove('btn-loading');
+            button.textContent = 'Save Entry';
+            
+            alert('Entry saved!');
+            renderEntries();
+        }
+
+        async function saveQuickNote() {
+            const text = document.getElementById('quickNoteText').value;
+            
+            if (!text) return;
+
+            const note = {
+                id: Date.now(),
+                text,
+                date: new Date().toISOString(),
+                type: 'note'
+            };
+
+            quickNotes.unshift(note);
+            await saveUserData();
+            
+            document.getElementById('quickNoteText').value = '';
+            renderNotes();
+        }
+
+        function handleNoteEnter(event) {
+            if (event.key === 'Enter') {
+                saveQuickNote();
+            }
+        }
+
+        function extractTags(content) {
+            const words = content.toLowerCase().split(/\s+/);
+            const commonWords = new Set(['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for']);
+            const tags = new Set();
+            
+            words.forEach(word => {
+                word = word.replace(/[.,!?;:]/g, '');
+                if (word.length > 4 && !commonWords.has(word)) {
+                    tags.add(word);
+                }
+            });
+            
+            return Array.from(tags).slice(0, 5);
+        }
+
+        function renderEntries() {
+            const grid = document.getElementById('entriesGrid');
+            
+            if (entries.length === 0) {
+                grid.innerHTML = `
+                    <div class="entry-card">
+                        <p style="color: var(--charcoal); opacity: 0.7; text-align: center;">
+                            No entries yet. Start creating to build your archive.
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = entries.map(entry => `
+                <div class="entry-card" onclick="viewEntry(${entry.id})">
+                    <div class="entry-date">${new Date(entry.date).toLocaleDateString('en-US', {
+                        month: 'long',
+                        day: 'numeric',
+                        year: 'numeric'
+                    })}</div>
+                    <h3 style="font-family: var(--font-display); font-size: 1.25rem; margin-bottom: 0.75rem;">
+                        ${entry.title}
+                    </h3>
+                    <div class="entry-preview">${entry.content}</div>
+                    ${entry.tags && entry.tags.length > 0 ? `
+                        <div class="entry-tags">
+                            ${entry.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        function renderNotes() {
+            const list = document.getElementById('notesList');
+            
+            if (quickNotes.length === 0) {
+                list.innerHTML = `
+                    <div class="note-item">
+                        <p style="color: var(--charcoal); opacity: 0.7; text-align: center;">
+                            No quick notes yet. Capture your fleeting thoughts above.
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = quickNotes.map(note => `
+                <div class="note-item">
+                    <div class="note-time">${new Date(note.date).toLocaleString()}</div>
+                    <div class="note-text">${note.text}</div>
+                </div>
+            `).join('');
+        }
+
+        function filterEntries() {
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+            
+            const filtered = entries.filter(entry => {
+                return entry.title.toLowerCase().includes(searchTerm) ||
+                       entry.content.toLowerCase().includes(searchTerm) ||
+                       (entry.tags && entry.tags.some(tag => tag.includes(searchTerm))) ||
+                       new Date(entry.date).toLocaleDateString().toLowerCase().includes(searchTerm);
+            });
+
+            const grid = document.getElementById('entriesGrid');
+            grid.innerHTML = filtered.map(entry => `
+                <div class="entry-card" onclick="viewEntry(${entry.id})">
+                    <div class="entry-date">${new Date(entry.date).toLocaleDateString('en-US', {
+                        month: 'long',
+                        day: 'numeric',
+                        year: 'numeric'
+                    })}</div>
+                    <h3 style="font-family: var(--font-display); font-size: 1.25rem; margin-bottom: 0.75rem;">
+                        ${entry.title}
+                    </h3>
+                    <div class="entry-preview">${entry.content}</div>
+                    ${entry.tags && entry.tags.length > 0 ? `
+                        <div class="entry-tags">
+                            ${entry.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        function viewEntry(id) {
+            const entry = entries.find(e => e.id === id);
+            alert(`${entry.title}\n\n${entry.content}\n\nFull entry viewing coming soon!`);
+        }
+
+        // AI Insights
+        async function generateInsights() {
+            if (entries.length === 0) {
+                alert('Add some entries first to generate insights');
+                return;
+            }
+
+            const button = event.target;
+            const originalText = button.textContent;
+            button.classList.add('btn-loading');
+            button.innerHTML = '<span class="loading"></span> Analyzing your patterns...';
+            button.disabled = true;
+
+            try {
+                const recentEntries = entries.slice(0, 5).map(e => e.content).join('\n\n');
+                
+                const response = await fetch('https://api.anthropic.com/v1/messages', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        model: 'claude-sonnet-4-20250514',
+                        max_tokens: 1000,
+                        messages: [{
+                            role: 'user',
+                            content: `Analyze these journal entries and provide:
+1. 2-3 key emotional patterns you notice
+2. Recurring themes or topics
+3. A list of 5-7 interconnected interests/values based on the writing
+4. One thoughtful prompt for further reflection
+
+Entries:
+${recentEntries}
+
+Respond in JSON format:
+{
+  "patterns": ["pattern1", "pattern2"],
+  "themes": ["theme1", "theme2"],
+  "interests": ["interest1", "interest2", ...],
+  "prompt": "reflection question"
+}`
+                        }]
+                    })
+                });
+
+                const data = await response.json();
+                const text = data.content.map(item => item.text || '').join('\n');
+                const cleanText = text.replace(/```json|```/g, '').trim();
+                const insights = JSON.parse(cleanText);
+
+                displayInsights(insights);
+                
+            } catch (error) {
+                console.error('Error generating insights:', error);
+                alert('Unable to generate insights at this time. Please try again later.');
+            }
+
+            button.classList.remove('btn-loading');
+            button.textContent = originalText;
+            button.disabled = false;
+        }
+
+        function displayInsights(insights) {
+            const container = document.getElementById('insightsContainer');
+            
+            container.innerHTML = `
+                <div class="insight-card">
+                    <h3 class="insight-title">Emotional Patterns</h3>
+                    <div class="insight-content">
+                        ${insights.patterns.map(p => `<p>• ${p}</p>`).join('')}
+                    </div>
+                </div>
+                
+                <div class="insight-card">
+                    <h3 class="insight-title">Recurring Themes</h3>
+                    <div class="insight-content">
+                        ${insights.themes.map(t => `<p>• ${t}</p>`).join('')}
+                    </div>
+                </div>
+                
+                <div class="insight-card" style="border-left-color: var(--accent-gold);">
+                    <h3 class="insight-title">Reflection Prompt</h3>
+                    <div class="insight-content">
+                        <p><em>${insights.prompt}</em></p>
+                    </div>
+                </div>
+                
+                <div class="pattern-web">
+                    <div class="pattern-title">Your Web of Interests</div>
+                    <div class="pattern-connections">
+                        ${insights.interests.map(i => `
+                            <div class="connection-node">${i}</div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Settings
+        function openSettings() {
+            document.getElementById('settingsModal').classList.add('active');
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsModal').classList.remove('active');
+        }
+
+        function toggleSetting(element) {
+            element.classList.toggle('active');
+        }
+
+        // Initialize app
+        init();
+    </script>
+</body>
+</html>
