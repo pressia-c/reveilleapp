@@ -29,13 +29,21 @@
         }
         
         :root {
-            --background-beige: #F5F0E6;
-            --soft-beige: #F6EDE1;
-            --navy: #1C2B4A;
-            --light-navy: #2B3A61;
-            --black-text: #000000;
-            --accent-gold: #EED6A7;
-            --accent-yellow: #F4D06F;
+            /* New Color Scheme - Pinterest/Kindle Inspired */
+            --background-cream: #F5F1E8;
+            --surface-white: #FFFFFF;
+            --text-primary: #2D2D2D;
+            --text-secondary: #5C5C5C;
+            --accent-orange: #FF5722;
+            --accent-coral: #FF7961;
+            --accent-blue: #4A90E2;
+            --success-green: #66BB6A;
+            
+            /* Kindle-style 3D Shadows */
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.06), 0 4px 8px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 8px rgba(0,0,0,0.08), 0 8px 16px rgba(0,0,0,0.06);
+            --shadow-lg: 0 8px 16px rgba(0,0,0,0.1), 0 16px 32px rgba(0,0,0,0.08);
+            --shadow-xl: 0 12px 24px rgba(0,0,0,0.12), 0 24px 48px rgba(0,0,0,0.1);
             
             --font-body: 'Eighties Comeback', 'Inter', sans-serif;
             --font-heading: 'Advercase', 'Inter', sans-serif;
@@ -43,12 +51,12 @@
         
         body {
             font-family: var(--font-body);
-            background: var(--background-beige);
-            color: var(--black-text);
+            background: var(--background-cream);
+            color: var(--text-primary);
             overflow-x: hidden;
         }
         
-        /* Ambient Glow Effect */
+        /* Ambient Glow (Subtle) */
         .ambient-glow {
             position: fixed;
             width: 100%;
@@ -57,59 +65,38 @@
             left: 0;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.3;
+            opacity: 0.15;
         }
         
         .glow-orb {
             position: absolute;
             border-radius: 50%;
-            filter: blur(100px);
-            animation: float-glow 25s ease-in-out infinite;
+            filter: blur(120px);
+            animation: float-glow 30s ease-in-out infinite;
         }
         
         .glow-1 {
-            width: 350px;
-            height: 350px;
-            background: var(--accent-gold);
-            top: 15%;
-            left: -12%;
-            animation-delay: 0s;
+            width: 400px;
+            height: 400px;
+            background: var(--accent-coral);
+            top: 10%;
+            left: -15%;
         }
         
         .glow-2 {
-            width: 450px;
-            height: 450px;
-            background: var(--light-navy);
-            top: 55%;
-            right: -18%;
-            animation-delay: 7s;
-        }
-        
-        .glow-3 {
-            width: 300px;
-            height: 300px;
-            background: var(--accent-gold);
-            bottom: 20%;
-            left: 45%;
-            animation-delay: 14s;
+            width: 500px;
+            height: 500px;
+            background: var(--accent-blue);
+            bottom: 10%;
+            right: -20%;
+            animation-delay: 10s;
         }
         
         @keyframes float-glow {
-            0%, 100% {
-                transform: translate(0, 0) scale(1);
-                opacity: 0.3;
-            }
-            33% {
-                transform: translate(60px, -60px) scale(1.15);
-                opacity: 0.4;
-            }
-            66% {
-                transform: translate(-40px, 50px) scale(0.9);
-                opacity: 0.25;
-            }
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(50px, 50px); }
         }
         
-        /* App Container */
         .app {
             min-height: 100vh;
             position: relative;
@@ -118,94 +105,283 @@
         
         /* Top Navigation */
         .top-nav {
-            background: rgba(245, 240, 230, 0.98);
+            background: var(--surface-white);
             backdrop-filter: blur(12px);
-            padding: 1.25rem 2rem;
-            border-bottom: 1px solid rgba(28, 43, 74, 0.08);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky;
             top: 0;
             z-index: 100;
+            box-shadow: var(--shadow-sm);
         }
         
         .logo {
             font-family: var(--font-heading);
             font-size: 1.75rem;
-            color: var(--navy);
+            color: var(--text-primary);
             letter-spacing: 0.02em;
         }
         
-        .account-switcher {
+        /* Client Header (Therapist Mode) */
+        .client-header {
+            display: none;
+            align-items: center;
+            gap: 2rem;
+            padding: 0.875rem 2rem;
+            background: var(--surface-white);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .client-header.show {
+            display: flex;
+        }
+        
+        .back-btn {
             display: flex;
             align-items: center;
-            gap: 1rem;
-        }
-        
-        .role-toggle {
-            background: rgba(255, 255, 255, 0.6);
-            border: 1.5px solid rgba(28, 43, 74, 0.15);
-            border-radius: 20px;
-            padding: 0.5rem;
-            display: flex;
             gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            border-radius: 8px;
         }
         
-        .role-btn {
-            padding: 0.5rem 1.25rem;
+        .back-btn:hover {
+            background: rgba(0,0,0,0.04);
+            color: var(--text-primary);
+        }
+        
+        .client-name-display {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            flex: 1;
+        }
+        
+        .reports-btn {
+            padding: 0.625rem 1.25rem;
+            background: var(--accent-orange);
+            color: white;
             border: none;
-            background: transparent;
-            border-radius: 16px;
+            border-radius: 10px;
             font-family: var(--font-body);
             font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.2s;
-            color: var(--navy);
+            box-shadow: 0 4px 12px rgba(255, 87, 34, 0.3);
         }
         
-        .role-btn.active {
-            background: var(--black-text);
+        .reports-btn:hover {
+            background: #E64A19;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(255, 87, 34, 0.4);
+        }
+        
+        /* Web Toggle (Personal with Therapist) */
+        .web-toggle-container {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .web-toggle-container.show {
+            display: flex;
+        }
+        
+        .web-toggle {
+            display: flex;
+            background: rgba(0,0,0,0.04);
+            border-radius: 20px;
+            padding: 4px;
+        }
+        
+        .web-toggle-btn {
+            padding: 0.5rem 1.25rem;
+            border: none;
+            background: transparent;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            cursor: pointer;
+            border-radius: 16px;
+            transition: all 0.2s;
+            color: var(--text-secondary);
+        }
+        
+        .web-toggle-btn.active {
+            background: var(--surface-white);
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .web-toggle-btn.shared.active {
+            background: var(--accent-blue);
             color: white;
         }
         
-        .user-badge {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+        .shared-indicator {
+            display: none;
+            font-size: 0.8rem;
+            color: var(--accent-blue);
+            font-weight: 500;
         }
         
-        .user-name {
-            font-size: 0.95rem;
-            color: var(--navy);
+        .shared-indicator.show {
+            display: block;
         }
         
-        .user-avatar {
+        /* Account Switcher (Settings Icon) */
+        .account-menu {
+            position: relative;
+        }
+        
+        .account-avatar {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: var(--accent-yellow);
+            background: var(--accent-orange);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 600;
-            color: var(--black-text);
-            font-size: 1.1rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: var(--shadow-sm);
         }
         
-        /* Bottom Tab Navigation */
+        .account-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Account Switcher Modal (Pinterest-style) */
+        .account-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 300;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .account-modal.show {
+            display: flex;
+        }
+        
+        .account-modal-content {
+            background: var(--surface-white);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 480px;
+            width: 90%;
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .account-modal-header {
+            margin-bottom: 2rem;
+        }
+        
+        .account-modal-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .account-current {
+            margin-bottom: 2rem;
+        }
+        
+        .account-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+        
+        .account-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.25rem;
+            border-radius: 12px;
+            background: rgba(0,0,0,0.02);
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .account-item:hover {
+            background: rgba(0,0,0,0.04);
+        }
+        
+        .account-item.current {
+            background: rgba(74, 144, 226, 0.1);
+            border: 2px solid var(--accent-blue);
+        }
+        
+        .account-avatar-small {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--accent-orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .account-info {
+            flex: 1;
+        }
+        
+        .account-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .account-type {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .account-email {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .account-check {
+            width: 24px;
+            height: 24px;
+            color: var(--accent-blue);
+        }
+        
+        /* Bottom Navigation */
         .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(255, 255, 255, 0.98);
+            background: var(--surface-white);
             backdrop-filter: blur(12px);
-            border-top: 1px solid rgba(28, 43, 74, 0.08);
+            border-top: 1px solid rgba(0,0,0,0.06);
             display: flex;
             justify-content: space-around;
             padding: 0.75rem 0;
             z-index: 100;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.04);
         }
         
         .nav-item {
@@ -216,15 +392,15 @@
             padding: 0.5rem 1rem;
             cursor: pointer;
             transition: all 0.2s;
-            color: var(--navy);
-            opacity: 0.5;
+            color: var(--text-secondary);
+            opacity: 0.6;
             text-decoration: none;
             position: relative;
         }
         
         .nav-item.active {
             opacity: 1;
-            color: var(--black-text);
+            color: var(--accent-orange);
         }
         
         .nav-item.active::before {
@@ -235,7 +411,7 @@
             transform: translateX(-50%);
             width: 40px;
             height: 3px;
-            background: var(--accent-yellow);
+            background: var(--accent-orange);
             border-radius: 0 0 3px 3px;
         }
         
@@ -271,44 +447,46 @@
             0% {
                 opacity: 0;
                 transform: translateY(20px);
-                letter-spacing: 0.1em;
             }
             100% {
                 opacity: 1;
                 transform: translateY(0);
-                letter-spacing: 0.01em;
             }
         }
         
         .welcome-message h1 {
             font-family: var(--font-heading);
             font-size: 2.75rem;
-            color: var(--navy);
+            color: var(--text-primary);
             letter-spacing: 0.01em;
             margin-bottom: 0.5rem;
         }
         
-        /* Entry Input */
-        .entry-container {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2.5rem;
-            margin-bottom: 2rem;
-            border: 1px solid rgba(28, 43, 74, 0.08);
-            transition: all 0.4s ease;
+        /* Card Style (Kindle 3D Effect) */
+        .card {
+            background: var(--surface-white);
+            border-radius: 16px;
+            border: 1px solid rgba(0,0,0,0.06);
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        .entry-container:hover {
-            border-color: var(--accent-yellow);
-            box-shadow: 0 12px 32px rgba(28, 43, 74, 0.08);
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        /* Entry Container */
+        .entry-container {
+            padding: 2.5rem;
+            margin-bottom: 2rem;
         }
         
         .entry-tabs {
             display: flex;
             gap: 1rem;
             margin-bottom: 2rem;
-            border-bottom: 2px solid rgba(28, 43, 74, 0.08);
+            border-bottom: 2px solid rgba(0,0,0,0.06);
         }
         
         .entry-tab {
@@ -318,8 +496,8 @@
             background: none;
             font-family: var(--font-body);
             font-size: 1rem;
-            color: var(--navy);
-            opacity: 0.5;
+            color: var(--text-secondary);
+            opacity: 0.6;
             border-bottom: 3px solid transparent;
             transition: all 0.2s;
             margin-bottom: -2px;
@@ -327,19 +505,20 @@
         
         .entry-tab.active {
             opacity: 1;
-            border-bottom-color: var(--accent-yellow);
+            color: var(--accent-orange);
+            border-bottom-color: var(--accent-orange);
         }
         
         .entry-input {
             width: 100%;
             min-height: 220px;
             padding: 1.75rem;
-            border: 1.5px solid rgba(28, 43, 74, 0.1);
+            border: 1.5px solid rgba(0,0,0,0.08);
             border-radius: 16px;
             font-family: var(--font-body);
             font-size: 1.05rem;
-            background: rgba(255, 255, 255, 0.9);
-            color: var(--black-text);
+            background: var(--surface-white);
+            color: var(--text-primary);
             resize: vertical;
             transition: all 0.3s ease;
             line-height: 1.8;
@@ -347,8 +526,8 @@
         
         .entry-input:focus {
             outline: none;
-            border-color: var(--accent-yellow);
-            box-shadow: 0 0 0 4px rgba(238, 214, 167, 0.15);
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 0 4px rgba(255, 87, 34, 0.1);
         }
         
         .photo-upload {
@@ -356,52 +535,108 @@
         }
         
         .photo-upload-area {
-            border: 2px dashed rgba(28, 43, 74, 0.2);
+            border: 2px dashed rgba(0,0,0,0.15);
             border-radius: 16px;
             padding: 4rem;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(0,0,0,0.02);
         }
         
         .photo-upload-area:hover {
-            border-color: var(--accent-yellow);
-            background: rgba(238, 214, 167, 0.15);
+            border-color: var(--accent-orange);
+            background: rgba(255, 87, 34, 0.05);
         }
         
         .photo-preview {
             max-width: 100%;
             border-radius: 12px;
             margin-top: 1.5rem;
-            box-shadow: 0 8px 24px rgba(28, 43, 74, 0.12);
+            box-shadow: var(--shadow-md);
         }
         
         .submit-btn {
             width: 100%;
             padding: 1.125rem;
-            background: var(--black-text);
+            background: var(--accent-orange);
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             font-family: var(--font-body);
             font-size: 1.05rem;
             font-weight: 600;
             cursor: pointer;
             margin-top: 1.5rem;
             transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(255, 87, 34, 0.3);
         }
         
         .submit-btn:hover {
+            background: #E64A19;
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 6px 16px rgba(255, 87, 34, 0.4);
         }
         
-        .submit-btn:active {
-            transform: translateY(0);
+        /* Context Menu (Three Dots) */
+        .note-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
         }
         
-        /* Processing State */
+        .context-menu-trigger {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        
+        .context-menu-trigger:hover {
+            background: rgba(0,0,0,0.06);
+        }
+        
+        .context-menu {
+            position: absolute;
+            background: var(--surface-white);
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            padding: 0.5rem;
+            z-index: 200;
+            min-width: 180px;
+            display: none;
+        }
+        
+        .context-menu.show {
+            display: block;
+        }
+        
+        .context-menu-item {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.95rem;
+        }
+        
+        .context-menu-item:hover {
+            background: rgba(0,0,0,0.04);
+        }
+        
+        .context-menu-item.danger:hover {
+            background: rgba(255, 87, 34, 0.1);
+            color: var(--accent-orange);
+        }
+        
+        /* Processing Overlay */
         .processing-overlay {
             display: none;
             position: fixed;
@@ -409,7 +644,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(245, 240, 230, 0.98);
+            background: rgba(245, 241, 232, 0.98);
             backdrop-filter: blur(12px);
             z-index: 200;
             align-items: center;
@@ -442,7 +677,7 @@
         }
         
         .doodle-animation svg {
-            stroke: var(--navy);
+            stroke: var(--accent-orange);
             fill: none;
             stroke-width: 2;
             stroke-linecap: round;
@@ -451,19 +686,16 @@
         .processing-text {
             font-family: var(--font-heading);
             font-size: 1.75rem;
-            color: var(--navy);
+            color: var(--text-primary);
             margin-bottom: 0.75rem;
             letter-spacing: 0.01em;
         }
         
         /* Insights Display */
         .insights-container {
-            background: rgba(255, 255, 255, 0.85);
-            border-radius: 20px;
             padding: 2.5rem;
             margin-bottom: 2rem;
-            border-left: 5px solid var(--accent-yellow);
-            box-shadow: 0 4px 12px rgba(28, 43, 74, 0.06);
+            border-left: 5px solid var(--accent-orange);
         }
         
         .insight-header {
@@ -476,7 +708,7 @@
         .insight-doodle {
             width: 48px;
             height: 48px;
-            stroke: var(--navy);
+            stroke: var(--accent-orange);
             fill: none;
             stroke-width: 2;
         }
@@ -484,26 +716,27 @@
         .insight-title {
             font-family: var(--font-heading);
             font-size: 1.75rem;
-            color: var(--navy);
+            color: var(--text-primary);
             letter-spacing: 0.01em;
         }
         
         .observation-item {
             margin-bottom: 1.75rem;
             padding: 1.75rem;
-            background: rgba(238, 214, 167, 0.12);
+            background: rgba(255, 87, 34, 0.05);
             border-radius: 16px;
-            border-left: 4px solid var(--accent-yellow);
+            border-left: 4px solid var(--accent-orange);
             transition: all 0.2s;
         }
         
         .observation-item:hover {
-            background: rgba(238, 214, 167, 0.2);
+            background: rgba(255, 87, 34, 0.08);
+            transform: translateX(4px);
         }
         
         .observation-label {
             font-weight: 600;
-            color: var(--navy);
+            color: var(--text-primary);
             margin-bottom: 0.75rem;
             display: flex;
             align-items: center;
@@ -512,7 +745,7 @@
         }
         
         .observation-text {
-            color: var(--black-text);
+            color: var(--text-primary);
             line-height: 1.8;
             opacity: 0.9;
             font-size: 0.98rem;
@@ -526,30 +759,19 @@
         }
         
         .archive-card {
-            background: rgba(255, 255, 255, 0.85);
-            border-radius: 16px;
             padding: 1.75rem;
-            border: 1px solid rgba(28, 43, 74, 0.08);
             cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .archive-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 28px rgba(28, 43, 74, 0.12);
-            border-color: var(--accent-yellow);
         }
         
         .archive-date {
             font-size: 0.85rem;
-            color: var(--navy);
-            opacity: 0.7;
+            color: var(--text-secondary);
             margin-bottom: 1rem;
             font-weight: 500;
         }
         
         .archive-preview {
-            color: var(--black-text);
+            color: var(--text-primary);
             line-height: 1.7;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -567,32 +789,18 @@
         
         .tag {
             padding: 0.375rem 0.875rem;
-            background: rgba(238, 214, 167, 0.35);
+            background: rgba(255, 87, 34, 0.15);
             border-radius: 14px;
             font-size: 0.75rem;
-            color: var(--navy);
+            color: var(--accent-orange);
             font-weight: 500;
         }
         
         /* Narrative / Insights Page */
-        .narrative-section {
-            margin-bottom: 3rem;
-        }
-        
-        .narrative-title {
-            font-family: var(--font-heading);
-            font-size: 2.25rem;
-            color: var(--navy);
-            margin-bottom: 1rem;
-            letter-spacing: 0.01em;
-        }
-        
         .pattern-card {
-            background: rgba(255, 255, 255, 0.85);
-            border-radius: 20px;
             padding: 2.5rem;
             margin-bottom: 2rem;
-            border-left: 5px solid var(--accent-yellow);
+            border-left: 5px solid var(--accent-orange);
         }
         
         .pattern-header {
@@ -605,21 +813,21 @@
         .pattern-label {
             font-family: var(--font-heading);
             font-size: 1.5rem;
-            color: var(--navy);
+            color: var(--text-primary);
         }
         
         .pattern-frequency {
-            background: rgba(238, 214, 167, 0.4);
+            background: rgba(255, 87, 34, 0.15);
             padding: 0.5rem 1rem;
             border-radius: 16px;
             font-size: 0.9rem;
-            color: var(--navy);
+            color: var(--accent-orange);
             font-weight: 600;
         }
         
         .pattern-description {
             line-height: 1.8;
-            color: var(--black-text);
+            color: var(--text-primary);
             opacity: 0.9;
             margin-bottom: 1.5rem;
         }
@@ -633,21 +841,17 @@
         .timeline-dot {
             width: 40px;
             height: 8px;
-            background: var(--accent-gold);
+            background: rgba(0,0,0,0.1);
             border-radius: 4px;
-            opacity: 0.4;
             transition: all 0.2s;
         }
         
         .timeline-dot.active {
-            opacity: 1;
-            background: var(--accent-yellow);
+            background: var(--accent-orange);
         }
         
-        /* Advanced Web of Interests */
+        /* Enhanced Web of Interests with Pan/Zoom */
         .web-container {
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 24px;
             padding: 3rem;
             min-height: 600px;
             position: relative;
@@ -663,65 +867,68 @@
         
         .web-filter-btn {
             padding: 0.625rem 1.25rem;
-            background: rgba(255, 255, 255, 0.9);
-            border: 1.5px solid rgba(28, 43, 74, 0.15);
+            background: var(--surface-white);
+            border: 1.5px solid rgba(0,0,0,0.1);
             border-radius: 20px;
             font-family: var(--font-body);
             font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.2s;
-            color: var(--navy);
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
         }
         
         .web-filter-btn.active {
-            background: var(--black-text);
+            background: var(--accent-orange);
             color: white;
-            border-color: var(--black-text);
+            border-color: var(--accent-orange);
         }
         
         .web-filter-btn:hover {
-            border-color: var(--accent-yellow);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
         
         .web-canvas {
             width: 100%;
             height: 600px;
             position: relative;
+            transition: transform 800ms cubic-bezier(0.65, 0, 0.35, 1);
         }
         
         .web-node {
             position: absolute;
             padding: 1rem 1.75rem;
-            background: rgba(255, 255, 255, 0.95);
-            border: 2.5px solid var(--accent-yellow);
+            background: var(--surface-white);
+            border: 2.5px solid var(--accent-orange);
             border-radius: 24px;
             font-size: 0.95rem;
-            color: var(--navy);
+            color: var(--text-primary);
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             animation: float 4s ease-in-out infinite;
-            box-shadow: 0 4px 12px rgba(28, 43, 74, 0.08);
+            box-shadow: var(--shadow-sm);
             font-weight: 500;
             user-select: none;
         }
         
         .web-node:hover {
             transform: scale(1.15);
-            box-shadow: 0 12px 32px rgba(238, 214, 167, 0.5);
+            box-shadow: var(--shadow-lg);
             border-width: 3px;
             z-index: 10;
         }
         
         .web-node.selected {
-            background: var(--accent-yellow);
-            color: var(--black-text);
-            transform: scale(1.2);
-            box-shadow: 0 16px 40px rgba(238, 214, 167, 0.6);
+            background: var(--accent-orange);
+            color: white;
+            transform: scale(1.3);
+            box-shadow: var(--shadow-xl);
             z-index: 11;
         }
         
         .web-node.dimmed {
-            opacity: 0.3;
+            opacity: 0.2;
         }
         
         .web-node.large {
@@ -738,14 +945,13 @@
         .web-node.small {
             padding: 0.75rem 1.25rem;
             font-size: 0.85rem;
-            opacity: 0.8;
         }
         
         .frequency-badge {
             position: absolute;
             top: -8px;
             right: -8px;
-            background: var(--black-text);
+            background: var(--text-primary);
             color: white;
             width: 24px;
             height: 24px;
@@ -755,6 +961,7 @@
             justify-content: center;
             font-size: 0.7rem;
             font-weight: 600;
+            box-shadow: var(--shadow-sm);
         }
         
         @keyframes float {
@@ -775,8 +982,7 @@
         .web-connection {
             position: absolute;
             height: 2.5px;
-            background: linear-gradient(90deg, var(--accent-gold), transparent);
-            opacity: 0.3;
+            background: linear-gradient(90deg, rgba(255, 87, 34, 0.3), transparent);
             transform-origin: left;
             pointer-events: none;
             border-radius: 2px;
@@ -785,76 +991,87 @@
         
         .web-connection.strong {
             height: 3px;
-            opacity: 0.5;
-            background: linear-gradient(90deg, var(--accent-yellow), transparent);
+            background: linear-gradient(90deg, rgba(255, 87, 34, 0.5), transparent);
         }
         
         .web-connection.highlighted {
-            opacity: 0.8;
             height: 4px;
-            background: var(--accent-yellow);
+            background: var(--accent-orange);
+            opacity: 0.8;
         }
         
-        .web-info-panel {
+        /* Narrative Card (appears on node click) */
+        .narrative-card {
             position: absolute;
             bottom: 2rem;
-            left: 2rem;
-            right: 2rem;
-            background: rgba(255, 255, 255, 0.95);
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 600px;
+            background: var(--surface-white);
             border-radius: 20px;
-            padding: 2rem;
-            border: 2px solid var(--accent-yellow);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-xl);
             display: none;
-            box-shadow: 0 8px 24px rgba(28, 43, 74, 0.15);
+            animation: slideUp 0.4s ease-out;
         }
         
-        .web-info-panel.show {
+        .narrative-card.show {
             display: block;
-            animation: slideUp 0.3s ease-out;
         }
         
         @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateX(-50%) translateY(40px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateX(-50%) translateY(0);
             }
         }
         
-        .info-panel-header {
+        .narrative-card-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
         
-        .info-panel-title {
+        .narrative-card-title {
             font-family: var(--font-heading);
-            font-size: 1.5rem;
-            color: var(--navy);
+            font-size: 1.75rem;
+            color: var(--text-primary);
         }
         
-        .info-panel-close {
+        .narrative-card-close {
             background: none;
             border: none;
             font-size: 1.5rem;
             cursor: pointer;
-            color: var(--navy);
+            color: var(--text-secondary);
             opacity: 0.5;
             transition: opacity 0.2s;
         }
         
-        .info-panel-close:hover {
+        .narrative-card-close:hover {
             opacity: 1;
         }
         
-        .info-panel-stats {
+        .narrative-card-description {
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            opacity: 0.9;
+        }
+        
+        .narrative-card-stats {
             display: flex;
             gap: 2rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: rgba(0,0,0,0.02);
+            border-radius: 12px;
         }
         
         .stat-item {
@@ -865,8 +1082,7 @@
         
         .stat-label {
             font-size: 0.8rem;
-            color: var(--navy);
-            opacity: 0.7;
+            color: var(--text-secondary);
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
@@ -874,89 +1090,159 @@
         .stat-value {
             font-size: 1.5rem;
             font-weight: 600;
-            color: var(--navy);
+            color: var(--text-primary);
         }
         
-        .connected-nodes {
-            margin-top: 1.5rem;
-        }
-        
-        .connected-nodes-title {
-            font-weight: 600;
-            margin-bottom: 0.75rem;
-            color: var(--navy);
-        }
-        
-        .connected-node-list {
+        .narrative-card-actions {
             display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
+            gap: 1rem;
         }
         
-        .connected-node-tag {
-            padding: 0.5rem 1rem;
-            background: rgba(238, 214, 167, 0.3);
-            border-radius: 16px;
-            font-size: 0.85rem;
-            color: var(--navy);
+        .action-btn {
+            flex: 1;
+            padding: 0.875rem;
+            background: var(--accent-orange);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
         }
         
-        .connected-node-tag:hover {
-            background: var(--accent-yellow);
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 87, 34, 0.3);
+        }
+        
+        .action-btn.secondary {
+            background: transparent;
+            color: var(--accent-orange);
+            border: 2px solid var(--accent-orange);
+        }
+        
+        /* Reports Tab (Therapist Only) */
+        .reports-section {
+            display: none;
+        }
+        
+        .reports-section.show {
+            display: block;
+        }
+        
+        .reports-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .new-report-btn {
+            padding: 0.875rem 1.5rem;
+            background: var(--accent-orange);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(255, 87, 34, 0.3);
+        }
+        
+        .new-report-btn:hover {
+            background: #E64A19;
             transform: translateY(-2px);
         }
         
-        .web-legend {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 16px;
+        .report-card {
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--accent-orange);
+        }
+        
+        .report-header {
             display: flex;
-            gap: 2rem;
-            justify-content: center;
-            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
         }
         
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 0.9rem;
-            color: var(--navy);
-        }
-        
-        .legend-icon {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            border: 2px solid var(--accent-yellow);
-        }
-        
-        .web-year-selector {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 0.75rem 1.5rem;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            border: 1.5px solid rgba(28, 43, 74, 0.15);
-        }
-        
-        .year-label {
-            font-size: 0.9rem;
-            color: var(--navy);
-            opacity: 0.7;
-        }
-        
-        .year-value {
+        .report-title {
             font-family: var(--font-heading);
-            font-size: 1.1rem;
-            color: var(--navy);
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
         }
         
-        /* Therapist Dashboard */
+        .report-date {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .report-preview {
+            line-height: 1.7;
+            color: var(--text-primary);
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+        
+        /* Collective Wisdom */
+        .wisdom-intro {
+            text-align: center;
+            max-width: 750px;
+            margin: 0 auto 3rem;
+            padding: 3rem;
+            border-radius: 24px;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+        
+        .wisdom-intro h2 {
+            font-family: var(--font-heading);
+            font-size: 2.25rem;
+            color: var(--text-primary);
+            margin-bottom: 1.25rem;
+            letter-spacing: 0.01em;
+        }
+        
+        .wisdom-intro p {
+            line-height: 1.9;
+            color: var(--text-primary);
+            opacity: 0.85;
+            margin-bottom: 1rem;
+        }
+        
+        .theme-card {
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--accent-orange);
+        }
+        
+        .theme-title {
+            font-family: var(--font-heading);
+            font-size: 1.75rem;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.01em;
+        }
+        
+        .theme-contributors {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.25rem;
+            font-weight: 500;
+        }
+        
+        .theme-insight {
+            line-height: 1.8;
+            color: var(--text-primary);
+            opacity: 0.9;
+        }
+        
+        /* Client List */
         .client-list {
             display: flex;
             flex-direction: column;
@@ -964,21 +1250,11 @@
         }
         
         .client-card {
-            background: rgba(255, 255, 255, 0.85);
-            border-radius: 16px;
             padding: 2rem;
-            border: 1px solid rgba(28, 43, 74, 0.08);
             cursor: pointer;
-            transition: all 0.3s;
         }
         
-        .client-card:hover {
-            border-color: var(--accent-yellow);
-            box-shadow: 0 8px 20px rgba(28, 43, 74, 0.1);
-            transform: translateX(4px);
-        }
-        
-        .client-header {
+        .client-card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -988,7 +1264,7 @@
         .client-name {
             font-family: var(--font-heading);
             font-size: 1.5rem;
-            color: var(--navy);
+            color: var(--text-primary);
             letter-spacing: 0.01em;
         }
         
@@ -997,131 +1273,20 @@
             align-items: center;
             gap: 0.5rem;
             font-size: 0.9rem;
-            color: var(--navy);
-            opacity: 0.7;
+            color: var(--text-secondary);
         }
         
         .status-indicator {
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: var(--accent-yellow);
+            background: var(--accent-orange);
         }
         
         .client-summary {
             opacity: 0.8;
             line-height: 1.6;
             margin-bottom: 1rem;
-        }
-        
-        .client-notes {
-            display: none;
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(28, 43, 74, 0.1);
-        }
-        
-        .client-notes.expanded {
-            display: block;
-            animation: slideDown 0.3s ease-out;
-        }
-        
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .note-item {
-            padding: 1.5rem;
-            background: rgba(238, 214, 167, 0.12);
-            border-radius: 12px;
-            margin-bottom: 1rem;
-            border-left: 4px solid var(--accent-yellow);
-        }
-        
-        .note-type {
-            font-size: 0.75rem;
-            color: var(--navy);
-            font-weight: 600;
-            text-transform: uppercase;
-            margin-bottom: 0.75rem;
-            letter-spacing: 0.05em;
-        }
-        
-        .note-type.shared {
-            color: var(--accent-yellow);
-        }
-        
-        .note-type.private {
-            color: var(--light-navy);
-        }
-        
-        /* Collective Wisdom */
-        .wisdom-intro {
-            text-align: center;
-            max-width: 750px;
-            margin: 0 auto 3rem;
-            padding: 3rem;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 24px;
-            border: 1px solid rgba(28, 43, 74, 0.08);
-        }
-        
-        .wisdom-intro h2 {
-            font-family: var(--font-heading);
-            font-size: 2.25rem;
-            color: var(--navy);
-            margin-bottom: 1.25rem;
-            letter-spacing: 0.01em;
-        }
-        
-        .wisdom-intro p {
-            line-height: 1.9;
-            color: var(--black-text);
-            opacity: 0.85;
-            margin-bottom: 1rem;
-        }
-        
-        .theme-card {
-            background: rgba(255, 255, 255, 0.85);
-            border-radius: 20px;
-            padding: 2.5rem;
-            margin-bottom: 2rem;
-            border-left: 5px solid var(--accent-yellow);
-            transition: all 0.3s;
-        }
-        
-        .theme-card:hover {
-            box-shadow: 0 8px 24px rgba(28, 43, 74, 0.1);
-            transform: translateY(-4px);
-        }
-        
-        .theme-title {
-            font-family: var(--font-heading);
-            font-size: 1.75rem;
-            color: var(--navy);
-            margin-bottom: 0.75rem;
-            letter-spacing: 0.01em;
-        }
-        
-        .theme-contributors {
-            font-size: 0.95rem;
-            color: var(--navy);
-            opacity: 0.7;
-            margin-bottom: 1.25rem;
-            font-weight: 500;
-        }
-        
-        .theme-insight {
-            line-height: 1.8;
-            color: var(--black-text);
-            opacity: 0.9;
         }
         
         /* Feedback Button */
@@ -1132,10 +1297,10 @@
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            background: var(--black-text);
+            background: var(--accent-orange);
             border: none;
             cursor: pointer;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 6px 16px rgba(255, 87, 34, 0.4);
             z-index: 99;
             transition: all 0.3s;
             display: flex;
@@ -1145,7 +1310,7 @@
         
         .feedback-trigger:hover {
             transform: scale(1.12);
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 12px 28px rgba(255, 87, 34, 0.5);
         }
         
         .feedback-trigger svg {
@@ -1163,17 +1328,17 @@
         
         .page.active {
             display: block;
-            animation: fadeIn 0.4s ease-out;
+            animation: pageSlide 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        @keyframes fadeIn {
+        @keyframes pageSlide {
             from {
                 opacity: 0;
-                transform: translateY(10px);
+                transform: translateX(20px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateX(0);
             }
         }
         
@@ -1181,19 +1346,20 @@
         .search-bar {
             width: 100%;
             padding: 1.125rem 1.75rem;
-            border: 1.5px solid rgba(28, 43, 74, 0.1);
+            border: 1.5px solid rgba(0,0,0,0.08);
             border-radius: 16px;
             font-family: var(--font-body);
             font-size: 1rem;
-            background: rgba(255, 255, 255, 0.85);
+            background: var(--surface-white);
             margin-bottom: 2rem;
             transition: all 0.3s;
+            box-shadow: var(--shadow-sm);
         }
         
         .search-bar:focus {
             outline: none;
-            border-color: var(--accent-yellow);
-            box-shadow: 0 0 0 4px rgba(238, 214, 167, 0.15);
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 0 4px rgba(255, 87, 34, 0.1);
         }
         
         /* Section Headers */
@@ -1204,15 +1370,14 @@
         .page-title {
             font-family: var(--font-heading);
             font-size: 2.5rem;
-            color: var(--navy);
+            color: var(--text-primary);
             margin-bottom: 0.5rem;
             letter-spacing: 0.01em;
         }
         
         .page-subtitle {
             font-size: 1.05rem;
-            color: var(--navy);
-            opacity: 0.7;
+            color: var(--text-secondary);
         }
         
         /* Responsive */
@@ -1233,18 +1398,17 @@
                 grid-template-columns: 1fr;
             }
             
-            .account-switcher {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-            
             .web-canvas {
                 height: 450px;
             }
             
-            .web-legend {
+            .narrative-card {
+                width: 95%;
+                padding: 2rem;
+            }
+            
+            .narrative-card-actions {
                 flex-direction: column;
-                gap: 1rem;
             }
         }
     </style>
@@ -1254,7 +1418,6 @@
     <div class="ambient-glow">
         <div class="glow-orb glow-1"></div>
         <div class="glow-orb glow-2"></div>
-        <div class="glow-orb glow-3"></div>
     </div>
 
     <!-- App Container -->
@@ -1262,16 +1425,31 @@
         <!-- Top Navigation -->
         <div class="top-nav">
             <div class="logo">Réveillé</div>
-            <div class="account-switcher">
-                <div class="role-toggle">
-                    <button class="role-btn active" onclick="switchRole('individual')">Personal</button>
-                    <button class="role-btn" onclick="switchRole('therapist')">Therapist</button>
+            <div style="display: flex; align-items: center; gap: 1.5rem;">
+                <!-- Web Toggle (Personal with Therapist) -->
+                <div class="web-toggle-container" id="webToggleContainer">
+                    <div class="web-toggle">
+                        <button class="web-toggle-btn active" onclick="switchWebView('personal')">Personal</button>
+                        <button class="web-toggle-btn shared" onclick="switchWebView('shared')">Shared</button>
+                    </div>
+                    <span class="shared-indicator" id="sharedIndicator">Visible to Dr. Chen</span>
                 </div>
-                <div class="user-badge">
-                    <span class="user-name" id="userName">Guest</span>
-                    <div class="user-avatar" id="userAvatar">G</div>
+                
+                <!-- Account Menu -->
+                <div class="account-menu">
+                    <div class="account-avatar" onclick="openAccountModal()">S</div>
                 </div>
             </div>
+        </div>
+
+        <!-- Client Header (Therapist Mode) -->
+        <div class="client-header" id="clientHeader">
+            <button class="back-btn" onclick="backToClientList()">
+                <span>←</span>
+                <span>Back to Client List</span>
+            </button>
+            <div class="client-name-display" id="clientNameDisplay">Client: —</div>
+            <button class="reports-btn" onclick="switchPage('reports')">Reports</button>
         </div>
 
         <!-- Main Content Area -->
@@ -1283,7 +1461,7 @@
                 </div>
 
                 <!-- Entry Container -->
-                <div class="entry-container">
+                <div class="entry-container card">
                     <div class="entry-tabs">
                         <button class="entry-tab active" onclick="switchTab('journal')">Journal Entry</button>
                         <button class="entry-tab" onclick="switchTab('photo')">Photo Upload</button>
@@ -1299,13 +1477,13 @@
 
                     <div id="photo-tab" style="display: none;">
                         <div class="photo-upload-area" onclick="document.getElementById('photoInput').click()">
-                            <svg width="72" height="72" viewBox="0 0 24 24" style="margin: 0 auto 1.5rem; stroke: var(--navy); fill: none; stroke-width: 2;">
+                            <svg width="72" height="72" viewBox="0 0 24 24" style="margin: 0 auto 1.5rem; stroke: var(--accent-orange); fill: none; stroke-width: 2;">
                                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
                                 <circle cx="8.5" cy="8.5" r="1.5"/>
                                 <polyline points="21 15 16 10 5 21"/>
                             </svg>
-                            <p style="color: var(--navy); font-size: 1.05rem; margin-bottom: 0.5rem;">Click to upload your journal photos</p>
-                            <p style="font-size: 0.9rem; opacity: 0.7;">We'll extract the text and preserve your handwriting</p>
+                            <p style="color: var(--text-primary); font-size: 1.05rem; margin-bottom: 0.5rem;">Click to upload your journal photos</p>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary);">We'll extract the text and preserve your handwriting</p>
                         </div>
                         <input type="file" id="photoInput" class="photo-upload" accept="image/*" onchange="handlePhotoUpload(event)">
                         <img id="photoPreview" class="photo-preview" style="display: none;">
@@ -1315,16 +1493,19 @@
                 </div>
 
                 <!-- Recent Insights -->
-                <div class="insights-container" id="insightsContainer" style="display: none;">
-                    <div class="insight-header">
-                        <svg class="insight-doodle" viewBox="0 0 48 48">
-                            <circle cx="24" cy="24" r="18"/>
-                            <line x1="24" y1="6" x2="24" y2="18"/>
-                            <line x1="24" y1="30" x2="24" y2="42"/>
-                            <line x1="6" y1="24" x2="18" y2="24"/>
-                            <line x1="30" y1="24" x2="42" y2="24"/>
-                        </svg>
-                        <h3 class="insight-title">Observations from Today</h3>
+                <div class="insights-container card" id="insightsContainer" style="display: none;">
+                    <div class="note-header">
+                        <div class="insight-header">
+                            <svg class="insight-doodle" viewBox="0 0 48 48">
+                                <circle cx="24" cy="24" r="18"/>
+                                <line x1="24" y1="6" x2="24" y2="18"/>
+                                <line x1="24" y1="30" x2="24" y2="42"/>
+                                <line x1="6" y1="24" x2="18" y2="24"/>
+                                <line x1="30" y1="24" x2="42" y2="24"/>
+                            </svg>
+                            <h3 class="insight-title">Observations from Today</h3>
+                        </div>
+                        <button class="context-menu-trigger" onclick="showContextMenu(event, 'insight-1')">⋯</button>
                     </div>
                     <div id="observationsList"></div>
                 </div>
@@ -1363,12 +1544,8 @@
                     <p class="page-subtitle">Your interconnected themes and interests</p>
                 </div>
                 
-                <div class="web-container">
+                <div class="web-container card">
                     <div class="web-controls">
-                        <div class="web-year-selector">
-                            <span class="year-label">Viewing:</span>
-                            <span class="year-value">2024</span>
-                        </div>
                         <button class="web-filter-btn active" onclick="filterWeb('all')">All Themes</button>
                         <button class="web-filter-btn" onclick="filterWeb('frequent')">Frequent Only</button>
                         <button class="web-filter-btn" onclick="filterWeb('recent')">Recent Activity</button>
@@ -1378,44 +1555,33 @@
                         <!-- Web nodes will be dynamically generated -->
                     </div>
                     
-                    <!-- Info Panel (appears on node click) -->
-                    <div class="web-info-panel" id="webInfoPanel">
-                        <div class="info-panel-header">
-                            <div class="info-panel-title" id="infoPanelTitle">Theme Name</div>
-                            <button class="info-panel-close" onclick="closeInfoPanel()">×</button>
+                    <!-- Narrative Card (appears on node click) -->
+                    <div class="narrative-card" id="narrativeCard">
+                        <div class="narrative-card-header">
+                            <div class="narrative-card-title" id="narrativeCardTitle">Theme Name</div>
+                            <button class="narrative-card-close" onclick="closeNarrativeCard()">×</button>
                         </div>
-                        <div class="info-panel-stats">
+                        <div class="narrative-card-description" id="narrativeCardDescription">
+                            Description goes here...
+                        </div>
+                        <div class="narrative-card-stats">
                             <div class="stat-item">
                                 <div class="stat-label">Mentioned</div>
-                                <div class="stat-value" id="infoPanelFrequency">0</div>
+                                <div class="stat-value" id="narrativeCardFrequency">0</div>
                             </div>
                             <div class="stat-item">
                                 <div class="stat-label">Connections</div>
-                                <div class="stat-value" id="infoPanelConnections">0</div>
+                                <div class="stat-value" id="narrativeCardConnections">0</div>
                             </div>
                             <div class="stat-item">
                                 <div class="stat-label">First Appeared</div>
-                                <div class="stat-value" id="infoPanelDate">—</div>
+                                <div class="stat-value" id="narrativeCardDate">—</div>
                             </div>
                         </div>
-                        <div class="connected-nodes">
-                            <div class="connected-nodes-title">Connected to:</div>
-                            <div class="connected-node-list" id="connectedNodesList"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="web-legend">
-                        <div class="legend-item">
-                            <div class="legend-icon" style="width: 24px; height: 24px; border-width: 3px;"></div>
-                            <span>Frequently mentioned (15+ times)</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-icon" style="width: 20px; height: 20px;"></div>
-                            <span>Occasionally mentioned (8-14 times)</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-icon" style="width: 16px; height: 16px; opacity: 0.6;"></div>
-                            <span>Emerging theme (&lt; 8 times)</span>
+                        <div class="narrative-card-actions">
+                            <button class="action-btn" onclick="alert('See 24 Entries feature coming soon')">See Entries</button>
+                            <button class="action-btn secondary" onclick="switchPage('narrative')">See Narrative</button>
+                            <button class="action-btn secondary" onclick="alert('Connections view coming soon')">Connections</button>
                         </div>
                     </div>
                 </div>
@@ -1423,7 +1589,7 @@
 
             <!-- COLLECTIVE PAGE -->
             <div class="page" id="collective-page">
-                <div class="wisdom-intro">
+                <div class="wisdom-intro card">
                     <h2>Collective Wisdom</h2>
                     <p>Welcome to the collective wisdom of humans sharing their inner experiences. This space aggregates anonymous themes and insights from our community and shows you only the relevant topics that others are also writing about from around the world.</p>
                     <p>Thank you for your contribution. By contributing your psychological and thought patterns, we can make advancement in academic research in areas of human nature including psychology, neuroscience, physiology, and more.</p>
@@ -1435,17 +1601,20 @@
                 </div>
             </div>
 
-            <!-- THERAPIST DASHBOARD PAGE -->
-            <div class="page" id="therapist-page" style="display: none;">
+            <!-- REPORTS PAGE (Therapist Only) -->
+            <div class="page reports-section" id="reports-page">
                 <div class="page-header">
-                    <h2 class="page-title">Client Dashboard</h2>
-                    <p class="page-subtitle">Manage your client sessions and collaborative notes</p>
+                    <h2 class="page-title">Reports</h2>
+                    <p class="page-subtitle">Private clinical notes and assessments</p>
                 </div>
                 
-                <input type="text" class="search-bar" placeholder="Search clients by name..." onkeyup="searchClients(event)">
+                <div class="reports-header">
+                    <input type="text" class="search-bar" style="flex: 1; margin-bottom: 0; margin-right: 1rem;" placeholder="Search reports..." onkeyup="searchReports(event)">
+                    <button class="new-report-btn" onclick="createNewReport()">+ New Report</button>
+                </div>
                 
-                <div class="client-list" id="clientList">
-                    <!-- Client cards will be inserted here -->
+                <div id="reportsList">
+                    <!-- Report cards will be inserted here -->
                 </div>
             </div>
         </div>
@@ -1528,345 +1697,280 @@
                 <p style="opacity: 0.75; font-size: 1.05rem;">Observing patterns and themes</p>
             </div>
         </div>
+
+        <!-- Account Switcher Modal (Pinterest-style) -->
+        <div class="account-modal" id="accountModal">
+            <div class="account-modal-content">
+                <div class="account-modal-header">
+                    <h2 class="account-modal-title">Switch Account</h2>
+                    <button class="narrative-card-close" onclick="closeAccountModal()" style="margin-top: -0.5rem;">×</button>
+                </div>
+                
+                <div class="account-current">
+                    <div class="account-label">Currently in:</div>
+                    <div class="account-item current">
+                        <div class="account-avatar-small">S</div>
+                        <div class="account-info">
+                            <div class="account-name">Sarah Chen</div>
+                            <div class="account-type">Personal</div>
+                            <div class="account-email">sarah@example.com</div>
+                        </div>
+                        <svg class="account-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="account-label">Your accounts:</div>
+                    <div class="account-item" onclick="switchAccount('therapist')">
+                        <div class="account-avatar-small" style="background: var(--accent-blue);">SC</div>
+                        <div class="account-info">
+                            <div class="account-name">Dr. Sarah Chen</div>
+                            <div class="account-type">Therapist</div>
+                            <div class="account-email">dr.chen@reveillearchive.com</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Context Menu -->
+        <div class="context-menu" id="contextMenu">
+            <div class="context-menu-item" onclick="editNote()">
+                <span>✎</span>
+                <span>Edit</span>
+            </div>
+            <div class="context-menu-item danger" onclick="deleteNote()">
+                <span>🗑</span>
+                <span>Delete</span>
+            </div>
+            <div class="context-menu-item danger" id="removeAccessItem" style="display: none;" onclick="removeAccess()">
+                <span>🔒</span>
+                <span>Remove Access</span>
+            </div>
+        </div>
     </div>
 
     <script>
-        // Sample data and state
-        let currentUser = {
-            name: 'Sarah',
-            role: 'individual', // or 'therapist'
-            entries: [],
-            observations: [],
-            interests: [
-                { name: 'growth', frequency: 24, size: 'large' },
-                { name: 'reflection', frequency: 18, size: 'large' },
-                { name: 'transition', frequency: 15, size: 'medium' },
-                { name: 'creativity', frequency: 12, size: 'medium' },
-                { name: 'nature', frequency: 10, size: 'medium' },
-                { name: 'relationships', frequency: 8, size: 'small' },
-                { name: 'healing', frequency: 7, size: 'small' },
-                { name: 'uncertainty', frequency: 6, size: 'small' }
-            ]
+        // App State
+        let appState = {
+            currentUser: {
+                name: 'Sarah',
+                accountType: 'personal', // 'personal' or 'therapist'
+                sharingWithTherapist: true, // if personal account is sharing
+                therapistName: 'Dr. Chen',
+                selectedClient: null
+            },
+            webView: 'personal', // 'personal' or 'shared'
+            selectedWebNode: null
         };
 
-        // Sample archive entries
+        // Sample Data
         const sampleEntries = [
             {
                 date: '2024-02-20',
-                preview: 'Today I felt a shift in how I approach my morning routine. There\'s something about starting the day with intention that changes everything. I noticed myself being more present...',
+                preview: 'Today I felt a shift in how I approach my morning routine. There\'s something about starting the day with intention that changes everything...',
                 tags: ['reflection', 'growth', 'routine']
             },
             {
                 date: '2024-02-18',
-                preview: 'The conversation with my therapist yesterday really stuck with me. We talked about patterns in my relationships and how they mirror my relationship with myself. It was illuminating...',
+                preview: 'The conversation with my therapist yesterday really stuck with me. We talked about patterns in my relationships...',
                 tags: ['therapy', 'relationships', 'insight']
-            },
-            {
-                date: '2024-02-15',
-                preview: 'Feeling uncertain about the changes ahead, but also curious. It\'s interesting how both can exist at once - the anxiety and the excitement. Maybe that\'s what growth feels like...',
-                tags: ['transition', 'uncertainty', 'curiosity']
-            },
-            {
-                date: '2024-02-12',
-                preview: 'Spent time in nature today and everything felt clearer. The walk through the forest reminded me of what matters. Sometimes distance from the noise is exactly what we need...',
-                tags: ['nature', 'clarity', 'reflection']
-            },
-            {
-                date: '2024-02-10',
-                preview: 'Working on that creative project brought up a lot. I realize I\'ve been holding myself back, waiting for permission that was always mine to give. Time to trust the process...',
-                tags: ['creativity', 'growth', 'self-trust']
             }
         ];
 
-        // Sample patterns for narrative page
         const samplePatterns = [
             {
                 label: 'Recurring Theme: Transition',
                 frequency: '12 times in 3 weeks',
-                description: 'You\'ve been processing a significant period of change. The language suggests movement between life phases with both curiosity and uncertainty.',
+                description: 'You\'ve been processing a significant period of change. The language suggests movement between life phases.',
                 timeline: [1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1]
-            },
-            {
-                label: 'Emotional Arc: Uncertainty → Curiosity',
-                frequency: 'Notable shift over time',
-                description: 'Your entries show a positive evolution from uncertainty toward curiosity about the future. This shift appeared gradually starting in mid-January.',
-                timeline: [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-            },
-            {
-                label: 'Self-Reflection Deepening',
-                frequency: '18 reflective entries',
-                description: 'You\'ve been increasingly contemplative, particularly around themes of self-trust and internal permission. The introspection has become more nuanced.',
-                timeline: [0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1]
             }
         ];
 
-        // Sample collective themes
         const collectiveThemes = [
             {
                 title: 'Transition & Change',
                 contributors: 847,
-                insight: 'Many are navigating periods of transition, moving between life phases with curiosity and uncertainty. Common threads include career shifts, relationship changes, and personal identity evolution.'
-            },
-            {
-                title: 'Healing & Growth',
-                contributors: 623,
-                insight: 'A common theme of processing past experiences and integrating them into personal growth. Many describe the non-linear nature of healing and the importance of self-compassion.'
-            },
-            {
-                title: 'Connection & Belonging',
-                contributors: 412,
-                insight: 'Exploration of meaningful connection - to self, others, and larger patterns in life. Themes of authentic relationship-building and finding community appear frequently.'
-            },
-            {
-                title: 'Creative Expression',
-                contributors: 389,
-                insight: 'Many are rediscovering creative outlets as tools for self-understanding. Art, writing, music, and movement emerge as pathways to process complex emotions.'
+                insight: 'Many are navigating periods of transition, moving between life phases with curiosity and uncertainty.'
             }
         ];
 
-        // Sample client data
         const sampleClients = [
             {
                 name: 'Sarah M.',
                 lastEntry: '2 days ago',
-                summary: 'Processing career transition and identity shifts. Strong progress in self-awareness.',
-                notes: [
-                    { type: 'shared', content: 'Working through anxiety around career transition. Making connections between current uncertainty and past patterns.' },
-                    { type: 'private', content: 'Consider CBT techniques for catastrophic thinking. Recommend mindfulness exercises for present-moment awareness.' }
-                ]
+                summary: 'Processing career transition and identity shifts.',
+                reports: []
             },
             {
                 name: 'James K.',
                 lastEntry: 'Today',
-                summary: 'Consistent mindfulness practice showing results. Emotional regulation improving.',
-                notes: [
-                    { type: 'shared', content: 'Progress in mindfulness practice - reporting better emotional regulation and reduced anxiety in social situations.' },
-                    { type: 'private', content: 'Notable shift in emotional regulation. Continue current approach, maybe introduce deeper trauma work next month.' }
-                ]
-            },
-            {
-                name: 'Elena R.',
-                lastEntry: '1 week ago',
-                summary: 'Relationship patterns becoming clearer. Ready for deeper exploration.',
-                notes: [
-                    { type: 'shared', content: 'Recognizing patterns in relationships - how childhood attachment styles show up in current dynamics.' },
-                    { type: 'private', content: 'Good insight development. Consider attachment-focused therapy exercises. Check in about family of origin work.' }
-                ]
+                summary: 'Consistent mindfulness practice showing results.',
+                reports: []
             }
         ];
 
+        const sampleReports = [
+            {
+                id: 1,
+                title: 'Session 15 - Progress Notes',
+                date: 'Feb 22, 2024',
+                preview: 'Client continues to show strong progress in managing anxiety. Discussed coping strategies...'
+            }
+        ];
+
+        let webData = {
+            nodes: [
+                { name: 'growth', frequency: 24, size: 'large', firstAppeared: 'Jan 2024', 
+                  narrative: 'This theme represents your journey through personal development over the past 3 months. You\'ve mentioned it 24 times, most frequently when discussing morning routines and reflection.',
+                  connections: ['reflection', 'transition', 'creativity'] },
+                { name: 'reflection', frequency: 18, size: 'large', firstAppeared: 'Jan 2024',
+                  narrative: 'Reflection has been a consistent practice for you, appearing in 18 entries. It often connects to moments of growth and self-awareness.',
+                  connections: ['growth', 'healing', 'nature'] },
+                { name: 'transition', frequency: 15, size: 'medium', firstAppeared: 'Feb 2024',
+                  narrative: 'You\'re navigating a period of change. This theme emerged in February and has been present in 15 entries.',
+                  connections: ['growth', 'uncertainty', 'change'] }
+            ]
+        };
+
         // Initialize app
         window.onload = function() {
-            document.getElementById('userName').textContent = currentUser.name;
-            document.getElementById('userAvatar').textContent = currentUser.name[0];
-            document.getElementById('welcomeName').textContent = currentUser.name;
-            
-            // Load initial data
+            updateUI();
             loadArchive();
             loadNarrative();
             loadWebOfInterests();
             loadCollectiveThemes();
-            loadClients();
+            loadReports();
         };
 
-        // Role switching
-        function switchRole(role) {
-            currentUser.role = role;
+        // Update UI based on account type
+        function updateUI() {
+            const { accountType, sharingWithTherapist, selectedClient } = appState.currentUser;
             
-            // Update button states
-            const buttons = document.querySelectorAll('.role-btn');
+            // Show/hide web toggle
+            if (accountType === 'personal' && sharingWithTherapist) {
+                document.getElementById('webToggleContainer').classList.add('show');
+            } else {
+                document.getElementById('webToggleContainer').classList.remove('show');
+            }
+            
+            // Show/hide client header for therapist
+            if (accountType === 'therapist' && selectedClient) {
+                document.getElementById('clientHeader').classList.add('show');
+                document.getElementById('clientNameDisplay').textContent = `Client: ${selectedClient.name}`;
+            } else {
+                document.getElementById('clientHeader').classList.remove('show');
+            }
+            
+            // Hide collective for therapist
+            const collectiveNav = document.querySelectorAll('.nav-item')[4];
+            if (accountType === 'therapist') {
+                collectiveNav.style.display = 'none';
+            } else {
+                collectiveNav.style.display = 'flex';
+            }
+            
+            // Show reports section for therapist with client
+            if (accountType === 'therapist' && selectedClient) {
+                document.getElementById('reports-page').classList.add('show');
+            }
+        }
+
+        // Web view toggle
+        function switchWebView(view) {
+            appState.webView = view;
+            const buttons = document.querySelectorAll('.web-toggle-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
             
-            // Show/hide therapist page and tabs
-            if (role === 'therapist') {
-                // Show only home page initially
-                switchPage('home');
-                // Hide all tabs except home
-                updateTherapistNavigation(false);
-                // Hide collective tab completely
-                document.querySelectorAll('.nav-item')[4].style.display = 'none';
-                // Change welcome message
-                document.getElementById('welcomeName').textContent = 'Dr. ' + currentUser.name;
-                // Hide entry container, show client selection prompt
-                document.querySelector('.entry-container').style.display = 'none';
-                showClientSelectionPrompt();
+            const indicator = document.getElementById('sharedIndicator');
+            if (view === 'shared') {
+                indicator.classList.add('show');
             } else {
-                // Personal mode - show all tabs, hide therapist-specific content
-                updateTherapistNavigation(true);
-                document.querySelectorAll('.nav-item')[4].style.display = 'flex';
-                document.getElementById('welcomeName').textContent = currentUser.name;
-                document.querySelector('.entry-container').style.display = 'block';
-                hideClientSelectionPrompt();
-                currentUser.selectedClient = null;
+                indicator.classList.remove('show');
             }
-        }
-
-        // Update navigation visibility for therapist
-        function updateTherapistNavigation(showAll) {
-            const navItems = document.querySelectorAll('.nav-item');
-            navItems.forEach((item, index) => {
-                // Home is always visible (index 0)
-                // Memory, Narrative, Web only visible after client selection or in personal mode
-                if (index === 0) {
-                    item.style.display = 'flex'; // Home always visible
-                } else if (index === 4) {
-                    // Collective - only in personal mode
-                    item.style.display = showAll ? 'flex' : 'none';
-                } else {
-                    // Memory, Narrative, Web - visible after client selection
-                    item.style.display = showAll ? 'flex' : 'none';
-                }
-            });
-        }
-
-        // Show client selection prompt for therapist
-        function showClientSelectionPrompt() {
-            const container = document.querySelector('.main-content');
-            let prompt = document.getElementById('clientSelectionPrompt');
             
-            if (!prompt) {
-                prompt = document.createElement('div');
-                prompt.id = 'clientSelectionPrompt';
-                prompt.className = 'client-selection-prompt';
-                prompt.innerHTML = `
-                    <div style="text-align: center; padding: 4rem 2rem;">
-                        <svg width="80" height="80" viewBox="0 0 24 24" style="margin: 0 auto 2rem; stroke: var(--navy); fill: none; stroke-width: 2; opacity: 0.5;">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                            <circle cx="12" cy="7" r="4"/>
-                        </svg>
-                        <h2 style="font-family: var(--font-heading); font-size: 2rem; color: var(--navy); margin-bottom: 1rem;">Select a Client</h2>
-                        <p style="opacity: 0.7; margin-bottom: 3rem; font-size: 1.05rem;">Choose a client from your dashboard to view their archive and collaborative workspace</p>
-                        <button class="submit-btn" onclick="showClientList()" style="max-width: 300px; margin: 0 auto;">View Client List</button>
-                    </div>
-                `;
-                document.querySelector('#home-page').appendChild(prompt);
+            // Reload web with appropriate data
+            loadWebOfInterests();
+        }
+
+        // Account switching
+        function openAccountModal() {
+            document.getElementById('accountModal').classList.add('show');
+        }
+
+        function closeAccountModal() {
+            document.getElementById('accountModal').classList.remove('show');
+        }
+
+        function switchAccount(type) {
+            if (type === 'therapist') {
+                appState.currentUser.accountType = 'therapist';
+                appState.currentUser.name = 'Dr. Sarah Chen';
+                // Show client list page
+                showClientListPage();
             }
-            prompt.style.display = 'block';
+            closeAccountModal();
+            updateUI();
         }
 
-        function hideClientSelectionPrompt() {
-            const prompt = document.getElementById('clientSelectionPrompt');
-            if (prompt) {
-                prompt.style.display = 'none';
-            }
-        }
-
-        function showClientList() {
-            // Create modal for client selection
-            const modal = document.createElement('div');
-            modal.id = 'clientModal';
-            modal.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(245, 240, 230, 0.98);
-                backdrop-filter: blur(12px);
-                z-index: 200;
-                overflow-y: auto;
-                padding: 2rem;
-            `;
-            
-            modal.innerHTML = `
-                <div style="max-width: 900px; margin: 0 auto;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                        <h2 style="font-family: var(--font-heading); font-size: 2rem; color: var(--navy);">Select a Client</h2>
-                        <button onclick="closeClientModal()" style="background: none; border: none; font-size: 2rem; cursor: pointer; color: var(--navy);">×</button>
-                    </div>
-                    <input type="text" class="search-bar" placeholder="Search clients..." onkeyup="searchModalClients(event)">
-                    <div id="modalClientList"></div>
-                </div>
-            `;
-            
-            document.body.appendChild(modal);
-            
-            // Populate with clients
-            const list = document.getElementById('modalClientList');
-            sampleClients.forEach(client => {
-                const card = document.createElement('div');
-                card.className = 'client-card';
-                card.style.cursor = 'pointer';
-                card.innerHTML = `
-                    <div class="client-header">
-                        <div class="client-name">${client.name}</div>
-                        <div class="client-status">
-                            <div class="status-indicator"></div>
-                            Last entry: ${client.lastEntry}
-                        </div>
-                    </div>
-                    <div class="client-summary">${client.summary}</div>
-                `;
-                card.onclick = function() {
-                    selectClient(client);
-                };
-                list.appendChild(card);
-            });
-        }
-
-        function closeClientModal() {
-            const modal = document.getElementById('clientModal');
-            if (modal) modal.remove();
-        }
-
-        function searchModalClients(event) {
-            const query = event.target.value.toLowerCase();
-            const cards = document.querySelectorAll('#modalClientList .client-card');
-            cards.forEach(card => {
-                const text = card.textContent.toLowerCase();
-                card.style.display = text.includes(query) ? 'block' : 'none';
-            });
+        // Show client list
+        function showClientListPage() {
+            // Create client list modal or page
+            alert('Client list would appear here. Click a client to view their workspace.');
+            // For demo, auto-select first client
+            selectClient(sampleClients[0]);
         }
 
         function selectClient(client) {
-            currentUser.selectedClient = client;
-            closeClientModal();
-            hideClientSelectionPrompt();
-            
-            // Show full navigation now
-            updateTherapistNavigation(true);
-            // Keep collective hidden
-            document.querySelectorAll('.nav-item')[4].style.display = 'none';
-            
-            // Update welcome message
+            appState.currentUser.selectedClient = client;
             document.getElementById('welcomeName').textContent = client.name;
-            
-            // Show client workspace
-            const container = document.querySelector('.entry-container');
-            container.style.display = 'block';
-            container.innerHTML = `
-                <div style="text-align: center; margin-bottom: 2rem;">
-                    <h3 style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--navy); margin-bottom: 0.5rem;">
-                        ${client.name}'s Workspace
-                    </h3>
-                    <p style="opacity: 0.7;">Viewing collaborative archive and notes</p>
-                </div>
-                <div style="display: grid; gap: 1.5rem;">
-                    ${client.notes.map(note => `
-                        <div class="note-item">
-                            <div class="note-type ${note.type}">${note.type} note</div>
-                            <div>${note.content}</div>
-                        </div>
-                    `).join('')}
-                </div>
-                <button class="submit-btn" onclick="addTherapistNote()" style="margin-top: 1.5rem;">Add New Note</button>
-            `;
-            
-            // Update archive, narrative, and web with client data
-            loadClientSpecificData(client);
+            updateUI();
+            switchPage('home');
         }
 
-        function addTherapistNote() {
-            alert('Note creation form would appear here');
+        function backToClientList() {
+            appState.currentUser.selectedClient = null;
+            updateUI();
+            showClientListPage();
         }
 
-        function loadClientSpecificData(client) {
-            // In production, this would load actual client data
-            // For now, we'll use the existing sample data but could customize per client
-            loadArchive();
-            loadNarrative();
-            loadWebOfInterests();
+        // Context menu
+        function showContextMenu(event, noteId) {
+            event.stopPropagation();
+            const menu = document.getElementById('contextMenu');
+            menu.style.display = 'block';
+            menu.style.left = event.pageX + 'px';
+            menu.style.top = event.pageY + 'px';
+            menu.classList.add('show');
+            
+            // Show/hide remove access option
+            const removeAccessItem = document.getElementById('removeAccessItem');
+            if (appState.currentUser.accountType === 'therapist') {
+                removeAccessItem.style.display = 'flex';
+            }
+        }
+
+        document.addEventListener('click', function() {
+            document.getElementById('contextMenu').classList.remove('show');
+        });
+
+        function editNote() {
+            alert('Edit functionality coming soon');
+        }
+
+        function deleteNote() {
+            if (confirm('Are you sure you want to delete this note?')) {
+                alert('Note deleted');
+            }
+        }
+
+        function removeAccess() {
+            if (confirm('Remove therapist access to this entry?')) {
+                alert('Access removed');
+            }
         }
 
         // Tab switching
@@ -1893,10 +1997,15 @@
             navItems.forEach(n => n.classList.remove('active'));
             
             document.getElementById(page + '-page').classList.add('active');
-            event.currentTarget.classList.add('active');
+            
+            // Update active nav item
+            const pageIndex = {home: 0, memory: 1, narrative: 2, web: 3, collective: 4}[page];
+            if (pageIndex !== undefined) {
+                navItems[pageIndex].classList.add('active');
+            }
         }
 
-        // Photo upload handler
+        // Photo upload
         function handlePhotoUpload(event) {
             const file = event.target.files[0];
             if (file) {
@@ -1919,74 +2028,49 @@
                 return;
             }
             
-            // Show processing overlay
             document.getElementById('processingOverlay').classList.add('show');
             
-            // Simulate AI processing
             setTimeout(() => {
                 processEntry(journalText);
                 document.getElementById('processingOverlay').classList.remove('show');
                 
-                // Trigger haptic feedback on mobile
                 if (navigator.vibrate) {
                     navigator.vibrate([50, 100, 50]);
                 }
                 
-                // Show insights
                 displayObservations();
                 
-                // Clear form
                 document.getElementById('journalInput').value = '';
                 document.getElementById('photoPreview').style.display = 'none';
                 document.getElementById('photoInput').value = '';
             }, 3000);
         }
 
-        // Process entry with NLP
         function processEntry(text) {
             const observations = [
                 {
                     type: 'Hesitation Detected',
-                    description: 'You used uncertainty language 8 times ("maybe", "I don\'t know", "perhaps", "not sure")',
-                    color: '#F4D06F'
-                },
-                {
-                    type: 'Future-Focused',
-                    description: '70% of your entry looks ahead, indicating planning and anticipation of what\'s coming',
-                    color: '#2B3A61'
-                },
-                {
-                    type: 'Reflective Tone',
-                    description: 'Contemplative language suggests active processing and integration of experiences',
-                    color: '#8B9B8E'
+                    description: 'You used uncertainty language 8 times',
+                    color: '#FF5722'
                 }
             ];
             
-            currentUser.observations = observations;
-            
-            currentUser.entries.push({
-                date: new Date().toISOString().split('T')[0],
-                text: text,
-                observations: observations
-            });
+            appState.currentObservations = observations;
         }
 
-        // Display observations
         function displayObservations() {
             const container = document.getElementById('insightsContainer');
             const list = document.getElementById('observationsList');
             
             list.innerHTML = '';
             
-            currentUser.observations.forEach(obs => {
+            appState.currentObservations.forEach(obs => {
                 const obsDiv = document.createElement('div');
                 obsDiv.className = 'observation-item';
-                obsDiv.style.borderLeftColor = obs.color;
                 obsDiv.innerHTML = `
                     <div class="observation-label">
                         <svg width="24" height="24" viewBox="0 0 24 24" style="stroke: ${obs.color}; fill: none; stroke-width: 2.5;">
                             <circle cx="12" cy="12" r="10"/>
-                            <circle cx="12" cy="12" r="3" fill="${obs.color}"/>
                         </svg>
                         ${obs.type}
                     </div>
@@ -2006,7 +2090,7 @@
             
             sampleEntries.forEach(entry => {
                 const card = document.createElement('div');
-                card.className = 'archive-card';
+                card.className = 'archive-card card';
                 card.innerHTML = `
                     <div class="archive-date">${entry.date}</div>
                     <div class="archive-preview">${entry.preview}</div>
@@ -2018,14 +2102,14 @@
             });
         }
 
-        // Load narrative patterns
+        // Load narrative
         function loadNarrative() {
             const container = document.getElementById('narrativeContent');
             container.innerHTML = '';
             
             samplePatterns.forEach(pattern => {
                 const card = document.createElement('div');
-                card.className = 'pattern-card';
+                card.className = 'pattern-card card';
                 card.innerHTML = `
                     <div class="pattern-header">
                         <div class="pattern-label">${pattern.label}</div>
@@ -2042,42 +2126,21 @@
             });
         }
 
-        // Sample data with connections
-        let webData = {
-            nodes: [
-                { name: 'growth', frequency: 24, size: 'large', firstAppeared: 'Jan 2024', connections: ['reflection', 'transition', 'creativity'] },
-                { name: 'reflection', frequency: 18, size: 'large', firstAppeared: 'Jan 2024', connections: ['growth', 'healing', 'nature'] },
-                { name: 'transition', frequency: 15, size: 'medium', firstAppeared: 'Feb 2024', connections: ['growth', 'uncertainty', 'change'] },
-                { name: 'creativity', frequency: 12, size: 'medium', firstAppeared: 'Jan 2024', connections: ['growth', 'expression'] },
-                { name: 'nature', frequency: 10, size: 'medium', firstAppeared: 'Jan 2024', connections: ['reflection', 'healing', 'peace'] },
-                { name: 'relationships', frequency: 8, size: 'small', firstAppeared: 'Feb 2024', connections: ['connection', 'growth'] },
-                { name: 'healing', frequency: 7, size: 'small', firstAppeared: 'Jan 2024', connections: ['reflection', 'nature'] },
-                { name: 'uncertainty', frequency: 6, size: 'small', firstAppeared: 'Feb 2024', connections: ['transition', 'growth'] }
-            ]
-        };
-
-        let selectedNode = null;
-
-        // Load advanced web of interests
+        // Load web with pan/zoom
         function loadWebOfInterests() {
             const canvas = document.getElementById('webCanvas');
             canvas.innerHTML = '';
             
-            // Calculate positions
             const positions = [];
-            webData.nodes.forEach((interest, index) => {
+            webData.nodes.forEach((node, index) => {
                 const angle = (index / webData.nodes.length) * 2 * Math.PI;
                 const radius = 35 + (Math.random() * 15);
-                const centerX = 50;
-                const centerY = 50;
-                
-                const x = centerX + (radius * Math.cos(angle));
-                const y = centerY + (radius * Math.sin(angle));
-                
-                positions.push({ x, y, node: interest });
+                const x = 50 + (radius * Math.cos(angle));
+                const y = 50 + (radius * Math.sin(angle));
+                positions.push({ x, y, node });
             });
             
-            // Create connection lines first
+            // Create connections
             positions.forEach((pos1, i) => {
                 positions.forEach((pos2, j) => {
                     if (i < j && pos1.node.connections.includes(pos2.node.name)) {
@@ -2086,12 +2149,10 @@
                         connection.dataset.from = pos1.node.name;
                         connection.dataset.to = pos2.node.name;
                         
-                        // Strong connection if both have high frequency
                         if (pos1.node.frequency > 12 && pos2.node.frequency > 12) {
                             connection.classList.add('strong');
                         }
                         
-                        // Calculate line position and angle
                         const dx = pos2.x - pos1.x;
                         const dy = pos2.y - pos1.y;
                         const length = Math.sqrt(dx * dx + dy * dy);
@@ -2119,13 +2180,11 @@
                 node.style.animationDelay = `${index * 0.3}s`;
                 node.style.transform = 'translate(-50%, -50%)';
                 
-                // Add frequency badge
                 const badge = document.createElement('div');
                 badge.className = 'frequency-badge';
                 badge.textContent = pos.node.frequency;
                 node.appendChild(badge);
                 
-                // Click handler
                 node.onclick = function(e) {
                     e.stopPropagation();
                     selectWebNode(pos.node);
@@ -2134,16 +2193,19 @@
                 canvas.appendChild(node);
             });
             
-            // Click outside to deselect
             canvas.onclick = function() {
                 deselectWebNode();
             };
         }
 
         function selectWebNode(node) {
-            selectedNode = node;
+            appState.selectedWebNode = node;
             
-            // Update all nodes
+            // Pan camera to center node
+            const canvas = document.getElementById('webCanvas');
+            // In production, calculate actual position and animate
+            
+            // Update nodes
             document.querySelectorAll('.web-node').forEach(n => {
                 n.classList.remove('selected', 'dimmed');
                 if (n.dataset.interest === node.name) {
@@ -2153,7 +2215,7 @@
                 }
             });
             
-            // Highlight relevant connections
+            // Highlight connections
             document.querySelectorAll('.web-connection').forEach(conn => {
                 conn.classList.remove('highlighted');
                 if (conn.dataset.from === node.name || conn.dataset.to === node.name) {
@@ -2161,57 +2223,42 @@
                 }
             });
             
-            // Show info panel
-            showInfoPanel(node);
+            // Show narrative card
+            showNarrativeCard(node);
         }
 
         function deselectWebNode() {
-            selectedNode = null;
+            appState.selectedWebNode = null;
             document.querySelectorAll('.web-node').forEach(n => {
                 n.classList.remove('selected', 'dimmed');
             });
             document.querySelectorAll('.web-connection').forEach(conn => {
                 conn.classList.remove('highlighted');
             });
-            closeInfoPanel();
+            closeNarrativeCard();
         }
 
-        function showInfoPanel(node) {
-            const panel = document.getElementById('webInfoPanel');
-            document.getElementById('infoPanelTitle').textContent = node.name;
-            document.getElementById('infoPanelFrequency').textContent = node.frequency;
-            document.getElementById('infoPanelConnections').textContent = node.connections.length;
-            document.getElementById('infoPanelDate').textContent = node.firstAppeared;
+        function showNarrativeCard(node) {
+            const card = document.getElementById('narrativeCard');
+            document.getElementById('narrativeCardTitle').textContent = node.name;
+            document.getElementById('narrativeCardDescription').textContent = node.narrative;
+            document.getElementById('narrativeCardFrequency').textContent = node.frequency;
+            document.getElementById('narrativeCardConnections').textContent = node.connections.length;
+            document.getElementById('narrativeCardDate').textContent = node.firstAppeared;
             
-            // Show connected nodes
-            const connectedList = document.getElementById('connectedNodesList');
-            connectedList.innerHTML = '';
-            node.connections.forEach(connName => {
-                const tag = document.createElement('div');
-                tag.className = 'connected-node-tag';
-                tag.textContent = connName;
-                tag.onclick = function() {
-                    const connNode = webData.nodes.find(n => n.name === connName);
-                    if (connNode) selectWebNode(connNode);
-                };
-                connectedList.appendChild(tag);
-            });
-            
-            panel.classList.add('show');
+            card.classList.add('show');
         }
 
-        function closeInfoPanel() {
-            document.getElementById('webInfoPanel').classList.remove('show');
+        function closeNarrativeCard() {
+            document.getElementById('narrativeCard').classList.remove('show');
         }
 
         function filterWeb(type) {
-            // Update button states
             document.querySelectorAll('.web-filter-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             event.target.classList.add('active');
             
-            // Filter nodes
             document.querySelectorAll('.web-node').forEach(node => {
                 const interest = webData.nodes.find(n => n.name === node.dataset.interest);
                 let show = true;
@@ -2224,21 +2271,6 @@
                 
                 node.style.display = show ? 'block' : 'none';
             });
-            
-            // Filter connections
-            document.querySelectorAll('.web-connection').forEach(conn => {
-                const fromNode = webData.nodes.find(n => n.name === conn.dataset.from);
-                const toNode = webData.nodes.find(n => n.name === conn.dataset.to);
-                let show = true;
-                
-                if (type === 'frequent') {
-                    show = fromNode.frequency >= 15 && toNode.frequency >= 15;
-                } else if (type === 'recent') {
-                    show = fromNode.firstAppeared === 'Feb 2024' || toNode.firstAppeared === 'Feb 2024';
-                }
-                
-                conn.style.display = show ? 'block' : 'none';
-            });
         }
 
         // Load collective themes
@@ -2248,7 +2280,7 @@
             
             collectiveThemes.forEach(theme => {
                 const card = document.createElement('div');
-                card.className = 'theme-card';
+                card.className = 'theme-card card';
                 card.innerHTML = `
                     <div class="theme-title">${theme.title}</div>
                     <div class="theme-contributors">${theme.contributors} contributors</div>
@@ -2258,58 +2290,44 @@
             });
         }
 
-        // Load clients (therapist view)
-        function loadClients() {
-            const list = document.getElementById('clientList');
-            list.innerHTML = '';
+        // Load reports
+        function loadReports() {
+            const container = document.getElementById('reportsList');
+            container.innerHTML = '';
             
-            sampleClients.forEach(client => {
+            sampleReports.forEach(report => {
                 const card = document.createElement('div');
-                card.className = 'client-card';
+                card.className = 'report-card card';
                 card.innerHTML = `
-                    <div class="client-header">
-                        <div class="client-name">${client.name}</div>
-                        <div class="client-status">
-                            <div class="status-indicator"></div>
-                            Last entry: ${client.lastEntry}
+                    <div class="report-header">
+                        <div>
+                            <div class="report-title">${report.title}</div>
+                            <div class="report-date">${report.date}</div>
                         </div>
+                        <button class="context-menu-trigger" onclick="showContextMenu(event, 'report-${report.id}')">⋯</button>
                     </div>
-                    <div class="client-summary">${client.summary}</div>
-                    <div class="client-notes">
-                        ${client.notes.map(note => `
-                            <div class="note-item">
-                                <div class="note-type ${note.type}">${note.type} note</div>
-                                <div>${note.content}</div>
-                            </div>
-                        `).join('')}
-                    </div>
+                    <div class="report-preview">${report.preview}</div>
                 `;
-                
-                card.onclick = function() {
-                    const notes = this.querySelector('.client-notes');
-                    notes.classList.toggle('expanded');
-                };
-                
-                list.appendChild(card);
+                container.appendChild(card);
             });
+        }
+
+        function createNewReport() {
+            alert('New report form would appear here');
         }
 
         // Search functions
         function searchArchive(event) {
             const query = event.target.value.toLowerCase();
-            const cards = document.querySelectorAll('.archive-card');
-            
-            cards.forEach(card => {
+            document.querySelectorAll('.archive-card').forEach(card => {
                 const text = card.textContent.toLowerCase();
                 card.style.display = text.includes(query) ? 'block' : 'none';
             });
         }
 
-        function searchClients(event) {
+        function searchReports(event) {
             const query = event.target.value.toLowerCase();
-            const cards = document.querySelectorAll('.client-card');
-            
-            cards.forEach(card => {
+            document.querySelectorAll('.report-card').forEach(card => {
                 const text = card.textContent.toLowerCase();
                 card.style.display = text.includes(query) ? 'block' : 'none';
             });
